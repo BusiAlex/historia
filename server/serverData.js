@@ -594,6 +594,30 @@ app.put("/trips/:id", (req, res) => {
 });
 //#endregion trips
 
+//#region
+app.get("/countries", (req, res) => {
+  let sql = `SELECT * FROM countries`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, async function (error, results, fields) {
+      if (error) {
+        message = "Countries sql error";
+        sendingGetError(res, message);
+        return;
+      }
+      sendingGet(res, null, results);
+    });
+    connection.release();
+  });
+});
+
+//#endregion
+
+
 function mySanitizeHtml(data) {
   return sanitizeHtml(data, {
     allowedTags: [],

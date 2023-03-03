@@ -161,3 +161,10 @@ select count(*) countUserEmail from users where userName = 'h'
 UNION all
   select count(*) countEmail from users where email = 'feher.h@gmail.com'
 ;
+
+# get http://localhost:3000/carsTrips
+select * from cars c 
+  inner join trips t on c.id = t.carId;
+
+# get http://localhost:3000/cars
+  SELECT * FROM cars;

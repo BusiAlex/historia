@@ -239,34 +239,6 @@ function getTrips(res, carId) {
   });
 }
 
-app.post("/cars", (req, res) => {
-  const newR = {
-    name: sanitizeHtml(req.body.name),
-    licenceNumber: sanitizeHtml(req.body.licenceNumber),
-    hourlyRate: +sanitizeHtml(req.body.hourlyRate),
-  };
-  let sql = `
-    INSERT cars 
-    (name, licenceNumber, hourlyRate)
-    VALUES
-    (?, ?, ?)
-    `;
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(
-      sql,
-      [newR.name, newR.licenceNumber, newR.hourlyRate],
-      function (error, result, fields) {
-        sendingPost(res, error, result, newR);
-      }
-    );
-    connection.release();
-  });
-});
-
 app.put("/cars/:id", (req, res) => {
   const id = req.params.id;
   const newR = {
@@ -545,14 +517,13 @@ app.delete("/countries/:id", (req, res) => {
 app.post("/countries", (req, res) => {
   const newR = {
     name: sanitizeHtml(req.body.name),
-    licenceNumber: sanitizeHtml(req.body.licenceNumber),
-    hourlyRate: +sanitizeHtml(req.body.hourlyRate),
+    region: sanitizeHtml(req.body.region),
   };
   let sql = `
-    INSERT cars 
-    (name, licenceNumber, hourlyRate)
-    VALUES
-    (?, ?, ?)
+  insert countries
+  (name, region)
+  VALUES
+  (?, ?)
     `;
   pool.getConnection(function (error, connection) {
     if (error) {
@@ -564,6 +535,36 @@ app.post("/countries", (req, res) => {
       [newR.name, newR.licenceNumber, newR.hourlyRate],
       function (error, result, fields) {
         sendingPost(res, error, result, newR);
+      }
+    );
+    connection.release();
+  });
+});
+
+//countries put
+app.put("/countries/:id", (req, res) => {
+  const id = req.params.id;
+  const newR = {
+    name: sanitizeHtml(req.body.name),
+    region: sanitizeHtml(req.body.region),
+  };
+  let sql = `
+    UPDATE countries SET
+    name = ?,
+    region = ?,
+    WHERE id = ?
+      `;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(
+      sql,
+      [newR.name, newR.licenceNumber, newR.hourlyRate, id],
+      function (error, result, fields) {
+        sendingPut(res, error, result, id, newR);
       }
     );
     connection.release();

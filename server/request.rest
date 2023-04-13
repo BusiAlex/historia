@@ -193,7 +193,28 @@ get http://localhost:3000/countries/2
 get http://localhost:3000/countriesEvents/2
 
 ### delete countries
-delete http://localhost:3000/countries/1
+delete http://localhost:3000/countries/7
+
+### post countries
+post http://localhost:3000/countries
+Content-Type: application/json
+
+{
+    "name": "Szlovákia",
+    "region": "Picsa"
+}
+
+### put countries
+put  http://localhost:3000/countries/1
+Content-Type: application/json
+
+{
+    "name": "Austria",
+    "region": "Európa"
+}
+
+
+
 
 
 

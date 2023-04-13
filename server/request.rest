@@ -177,5 +177,23 @@ Content-Type: application/json
 
 #---------------------------------------------------- SAJÁT
 
-###
+### get countries
 get http://localhost:3000/countries
+
+### get events
+get http://localhost:3000/events
+
+### get countries with events
+get http://localhost:3000/countryEvents
+
+### get countries by ID
+get http://localhost:3000/countries/2
+
+### get countries with events by ID
+get http://localhost:3000/countriesEvents/2
+
+### delete countries
+delete http://localhost:3000/countries/1
+
+
+

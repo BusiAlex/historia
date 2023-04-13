@@ -239,184 +239,6 @@ function getTrips(res, carId) {
   });
 }
 
-//Csak a cars tábla
-app.get("/cars", (req, res) => {
-  let sql = `SELECT * FROM cars`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, async function (error, results, fields) {
-      if (error) {
-        message = "Cars sql error";
-        sendingGetError(res, message);
-        return;
-      }
-      sendingGet(res, null, results);
-    });
-    connection.release();
-  });
-});
-
-//Cars a Trip-jeivel
-app.get("/carsWithTrips", (req, res) => {
-  let sql = `SELECT * FROM cars`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, async function (error, results, fields) {
-      if (error) {
-        message = "Cars sql error";
-        sendingGetError(res, message);
-        return;
-      }
-
-      //Végigmegyünk a kocsikon, és berakjuk a trips-eket
-      for (const car of results) {
-        //A promise a results-ot ada vissza
-        car.trips = await getTrips(res, car.id);
-      }
-      sendingGet(res, null, results);
-    });
-    connection.release();
-  });
-});
-
-//Cars és Trips táblák inner join
-app.get("/carsTrips", (req, res) => {
-  let sql = `select * from cars c
-  inner join trips t on c.id = t.carId`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, async function (error, results, fields) {
-      if (error) {
-        message = "Cars sql error";
-        sendingGetError(res, message);
-        return;
-      }
-      sendingGet(res, null, results);
-    });
-    connection.release();
-  });
-});
-
-//Egy cars rekord
-app.get("/cars/:id", (req, res) => {
-  const id = req.params.id;
-  let sql = `
-    SELECT * FROM cars
-    WHERE id = ?`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, [id], async function (error, results, fields) {
-      if (error) {
-        const message = "Cars sql error";
-        sendingGetError(res, message);
-        return;
-      }
-      if (results.length == 0) {
-        const message = `Not found id: ${id}`;
-        sendingGetError(res, message);
-        return;
-      }
-      sendingGetById(res, null, results[0], id);
-    });
-    connection.release();
-  });
-});
-
-//egy cars rekord a tripsjeivel
-app.get("/carsWithTrips/:id", (req, res) => {
-  const id = req.params.id;
-  let sql = `
-    SELECT * FROM cars
-    WHERE id = ?`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, [id], async function (error, results, fields) {
-      if (error) {
-        const message = "Cars sql error";
-        sendingGetError(res, message);
-        return;
-      }
-      if (results.length == 0) {
-        const message = `Not found id: ${id}`;
-        sendingGetError(res, message);
-        return;
-      }
-      results[0].trips = await getTrips(res, id);
-      sendingGetById(res, null, results[0], id);
-    });
-    connection.release();
-  });
-});
-
-//egy cars rekord a tripsjeivel
-app.get("/carsTrips/:id", (req, res) => {
-  const id = req.params.id;
-  let sql = `
-  select c.id, c.name, c.licenceNumber, c.hourlyRate, t.id, t.numberOfMinits, t.date, t.carId from cars c
-  inner join trips t on c.id = t.carId
-  where c.id = ?`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, [id], async function (error, results, fields) {
-      if (error) {
-        const message = "Cars sql error";
-        sendingGetError(res, message);
-        return;
-      }
-      if (results.length == 0) {
-        const message = `Not found id: ${id}`;
-        sendingGetError(res, message);
-        return;
-      }
-      sendingGetById(res, null, results, id);
-    });
-    connection.release();
-  });
-});
-
-app.delete("/cars/:id", (req, res) => {
-  const id = req.params.id;
-
-  let sql = `
-    DELETE FROM cars
-    WHERE id = ?`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, [id], function (error, result, fields) {
-      sendingDelete(res, error, result, id);
-    });
-    connection.release();
-  });
-});
-
 app.post("/cars", (req, res) => {
   const newR = {
     name: sanitizeHtml(req.body.name),
@@ -594,7 +416,9 @@ app.put("/trips/:id", (req, res) => {
 });
 //#endregion trips
 
-//#region
+//#region countries
+
+//get countries
 app.get("/countries", (req, res) => {
   let sql = `SELECT * FROM countries`;
 
@@ -614,6 +438,168 @@ app.get("/countries", (req, res) => {
     connection.release();
   });
 });
+
+// országok és események tábla inner join
+app.get("/countryEvents", (req, res) => {
+  let sql = `
+  select * from countries c
+    inner join events e on c.id = e.countryId;
+  `;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, async function (error, results, fields) {
+      if (error) {
+        message = "Country sql error";
+        sendingGetError(res, message);
+        return;
+      }
+      sendingGet(res, null, results);
+    });
+    connection.release();
+  });
+});
+
+// ország keresés ID alapján
+app.get("/countries/:id", (req, res) => {
+  const id = req.params.id;
+  let sql = `
+    SELECT * FROM countries
+    WHERE id = ?`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], async function (error, results, fields) {
+      if (error) {
+        const message = "Countries sql error";
+        sendingGetError(res, message);
+        return;
+      }
+      if (results.length == 0) {
+        const message = `Not found id: ${id}`;
+        sendingGetError(res, message);
+        return;
+      }
+      sendingGetById(res, null, results[0], id);
+    });
+    connection.release();
+  });
+});
+
+// Egy countries rekord eventsjeivel
+app.get("/countriesEvents/:id", (req, res) => {
+  const id = req.params.id;
+  let sql = `select c.id, c.name, c.region, e.id, e.description, e.dateFrom, e.dateTo, e.countryId from countries c
+  inner join events e on c.id = e.countryId
+  where c.id = ?`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], async function (error, results, fields) {
+      if (error) {
+        const message = "Countries sql error";
+        sendingGetError(res, message);
+        return;
+      }
+      if (results.length == 0) {
+        const message = `Not found id: ${id}`;
+        sendingGetError(res, message);
+        return;
+      }
+      sendingGetById(res, null, results, id);
+    });
+    connection.release();
+  });
+});
+
+//countries delete
+app.delete("/countries/:id", (req, res) => {
+  const id = req.params.id;
+
+  let sql = `
+    DELETE FROM countries
+    WHERE id = ?`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], function (error, result, fields) {
+      sendingDelete(res, error, result, id);
+    });
+    connection.release();
+  });
+});
+
+//countries post
+app.post("/countries", (req, res) => {
+  const newR = {
+    name: sanitizeHtml(req.body.name),
+    licenceNumber: sanitizeHtml(req.body.licenceNumber),
+    hourlyRate: +sanitizeHtml(req.body.hourlyRate),
+  };
+  let sql = `
+    INSERT cars 
+    (name, licenceNumber, hourlyRate)
+    VALUES
+    (?, ?, ?)
+    `;
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(
+      sql,
+      [newR.name, newR.licenceNumber, newR.hourlyRate],
+      function (error, result, fields) {
+        sendingPost(res, error, result, newR);
+      }
+    );
+    connection.release();
+  });
+});
+
+
+
+
+//#region events
+//get events
+app.get("/events", (req, res) => {
+  let sql = `SELECT * FROM events`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, async function (error, results, fields) {
+      if (error) {
+        message = "Events sql error";
+        sendingGetError(res, message);
+        return;
+      }
+      sendingGet(res, null, results);
+    });
+    connection.release();
+  });
+});
+
+
+
+
+
+
 
 //#endregion
 

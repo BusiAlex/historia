@@ -213,7 +213,6 @@ app.put("/users/:id", (req, res) => {
 
 //#endregion Users
 
-//#region cars ---
 //A függvény egy promisszal tér vissza
 function getTrips(res, carId) {
   return new Promise((resolve, reject) => {
@@ -238,39 +237,6 @@ function getTrips(res, carId) {
     });
   });
 }
-
-app.put("/cars/:id", (req, res) => {
-  const id = req.params.id;
-  const newR = {
-    name: sanitizeHtml(req.body.name),
-    licenceNumber: sanitizeHtml(req.body.licenceNumber),
-    hourlyRate: +sanitizeHtml(req.body.hourlyRate),
-  };
-  let sql = `
-    UPDATE cars SET
-    name = ?,
-    licenceNumber = ?,
-    hourlyRate = ?
-    WHERE id = ?
-      `;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(
-      sql,
-      [newR.name, newR.licenceNumber, newR.hourlyRate, id],
-      function (error, result, fields) {
-        sendingPut(res, error, result, id, newR);
-      }
-    );
-    connection.release();
-  });
-});
-//#endregion cars
-
 //#region trips ---
 app.get("/tripsByCarId/:id", (req, res) => {
   const id = req.params.id;
@@ -532,7 +498,7 @@ app.post("/countries", (req, res) => {
     }
     connection.query(
       sql,
-      [newR.name, newR.licenceNumber, newR.hourlyRate],
+      [newR.name, newR.region],
       function (error, result, fields) {
         sendingPost(res, error, result, newR);
       }
@@ -551,7 +517,7 @@ app.put("/countries/:id", (req, res) => {
   let sql = `
     UPDATE countries SET
     name = ?,
-    region = ?,
+    region = ?
     WHERE id = ?
       `;
 
@@ -562,7 +528,7 @@ app.put("/countries/:id", (req, res) => {
     }
     connection.query(
       sql,
-      [newR.name, newR.licenceNumber, newR.hourlyRate, id],
+      [newR.name, newR.region, id],
       function (error, result, fields) {
         sendingPut(res, error, result, id, newR);
       }

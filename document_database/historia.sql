@@ -7,15 +7,15 @@ CREATE DATABASE Historia
 insert INTO countries
   (id, name, region)
   VALUES
-  (1, 'Magyarország', 'Európa');
+  (3, 'Oroszország', 'Európa');
 
 select * from countries;
 
 insert into events
-  (id, eventName, description, dateFrom, dateTo, countryId)
+  (id, eventName, description, datefrom, dateTo, countryId)
   VALUES
-  (1, 'Államalapítás', '1. Szent István Király megalapítja a magyar államot.',
-  '1000', '', 1);
+  (4, '2. Miklós cár uralkodása', '1888-ban megkoronázzák 2. Miklós cárt, végül a kommunisták családjával együtt brutálisan kivégzik.',
+ '1888', '1920', 3);
 
 
 # Countries events inner join
@@ -48,9 +48,38 @@ delete from countries
     where id = 1;
 
 
+#GET events by id
+  SELECT * from events
+    where id = 1;
+
+#GET events by country id
+  select * from events
+    where countryId = 1;
+
+#DELETE events
+  delete from events
+    where id = 1;
+
+ #POST events
+  insert events
+    (id, eventName, description, dateFrom, dateTo, countryId)
+    VALUES
+    (4, '2. Miklós cár uralkodása', 'Megkoronázták 2. Miklós cárt', '1888', '1920', 3);
+
+#PUT events
+  update events set
+  eventName = 'lófasz',
+  description = 'asd',
+  dateFrom = '123',
+  dateTo = '321',
+  countryId = 1
+  where id = 1;
+
+
 
 # DELETE
 delete from events;
+delete from countries;
 
 # Lekérdezések
 select * from events;

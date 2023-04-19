@@ -213,146 +213,6 @@ app.put("/users/:id", (req, res) => {
 
 //#endregion Users
 
-//A függvény egy promisszal tér vissza
-function getTrips(res, carId) {
-  return new Promise((resolve, reject) => {
-    let sql = `
-    SELECT id, numberOfMinits, DATE_FORMAT(date, '%Y.%m.%d %h:%i:%s') date, carId from trips
-    WHERE carId = ?`;
-
-    pool.getConnection(function (error, connection) {
-      if (error) {
-        sendingGetError(res, "Server connecting error!");
-        return;
-      }
-      connection.query(sql, [carId], async function (error, results, fields) {
-        if (error) {
-          const message = "Trips sql error";
-          sendingGetError(res, message);
-        }
-        //Az await miatt a car.trips a results-ot kapja értékül
-        resolve(results);
-      });
-      connection.release();
-    });
-  });
-}
-//#region trips ---
-app.get("/tripsByCarId/:id", (req, res) => {
-  const id = req.params.id;
-  let sql = `
-    SELECT id, numberOfMinits, DATE_FORMAT(date, '%Y.%m.%d %h:%i:%s') date, carId from trips
-    WHERE carId = ?`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, [id], function (error, results, fields) {
-      sendingGetById(res, error, results, id);
-    });
-    connection.release();
-  });
-});
-
-app.get("/trips/:id", (req, res) => {
-  const id = req.params.id;
-  let sql = `
-    SELECT id, numberOfMinits, DATE_FORMAT(date, '%Y.%m.%d %h:%i:%s') date, carId from trips
-    WHERE id = ?`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(sql, [id], function (error, results, fields) {
-      sendingGetById(res, error, results, id);
-    });
-    connection.release();
-  });
-});
-
-app.get("/trips", (req, res) => {
-  let sql = `
-    SELECT id, numberOfMinits, DATE_FORMAT(date, '%Y.%m.%d %h:%i:%s') date, carId from trips`;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-
-    connection.query(sql, function (error, results, fields) {
-      sendingGet(res, error, results);
-    });
-
-    connection.release();
-  });
-});
-
-app.post("/trips", (req, res) => {
-  const newR = {
-    numberOfMinits: sanitizeHtml(req.body.numberOfMinits),
-    date: sanitizeHtml(req.body.date),
-    carId: +sanitizeHtml(req.body.carId),
-  };
-
-  let sql = `
-  INSERT trips 
-  (numberOfMinits, date, carId)
-  VALUES
-  (?, ?, ?)
-    `;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(
-      sql,
-      [newR.numberOfMinits, newR.date, newR.carId],
-      function (error, result, fields) {
-        sendingPost(res, error, result, newR);
-      }
-    );
-    connection.release();
-  });
-});
-
-app.put("/trips/:id", (req, res) => {
-  const id = req.params.id;
-  const newR = {
-    numberOfMinits: sanitizeHtml(req.body.numberOfMinits),
-    date: sanitizeHtml(req.body.date),
-    carId: +sanitizeHtml(req.body.carId),
-  };
-  let sql = `
-    UPDATE trips SET
-    numberOfMinits = ?,
-    date = ?,
-    carId = ?
-    WHERE id = ?
-      `;
-
-  pool.getConnection(function (error, connection) {
-    if (error) {
-      sendingGetError(res, "Server connecting error!");
-      return;
-    }
-    connection.query(
-      sql,
-      [newR.numberOfMinits, newR.date, newR.carId, id],
-      function (error, result, fields) {
-        sendingPut(res, error, result, id, newR);
-      }
-    );
-    connection.release();
-  });
-});
-//#endregion trips
 
 //#region countries
 
@@ -536,11 +396,11 @@ app.put("/countries/:id", (req, res) => {
     connection.release();
   });
 });
-
-
+//#endregion countries
 
 
 //#region events
+
 //get events
 app.get("/events", (req, res) => {
   let sql = `SELECT * FROM events`;
@@ -562,9 +422,136 @@ app.get("/events", (req, res) => {
   });
 });
 
+//get events by ID
+app.get("/events/:id", (req, res) => {
+  const id = req.params.id;
+  let sql = `
+  SELECT * from events
+  where id = ?
+   `;
 
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], function (error, results, fields) {
+      sendingGetById(res, error, results, id);
+    });
+    connection.release();
+  });
+});
 
+//get events by country ID
+app.get("/eventsByCountryId/:id", (req, res) => {
+  const id = req.params.id;
+  let sql = `
+  select * from events
+    where countryId = ?
+  `;
 
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], function (error, results, fields) {
+      sendingGetById(res, error, results, id);
+    });
+    connection.release();
+  });
+});
+
+//delete events
+app.delete("/events/:id", (req, res) => {
+  const id = req.params.id;
+
+  let sql = `
+    DELETE FROM events
+    WHERE id = ?`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], function (error, result, fields) {
+      sendingDelete(res, error, result, id);
+    });
+    connection.release();
+  });
+});
+
+//post events
+app.post("/events", (req, res) => {
+  const newR = {
+    eventName: sanitizeHtml(req.body.eventName),
+    description: sanitizeHtml(req.body.description),
+    dateFrom: +sanitizeHtml(req.body.dateFrom),
+    dateTo: +sanitizeHtml(req.body.dateTo),
+    countryId: +sanitizeHtml(req.body.countryId),
+  };
+
+  let sql = `
+  insert events
+  (eventName, description, dateFrom, dateTo, countryId)
+  VALUES
+  (?, ?, ?, ?, ?);
+  `;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(
+      sql,
+      [newR.eventName, newR.description, newR.dateFrom, newR.dateTo, newR.countryId],
+      function (error, result, fields) {
+        sendingPost(res, error, result, newR);
+      }
+    );
+    connection.release();
+  });
+});
+
+//put events
+app.put("/events/:id", (req, res) => {
+  const id = req.params.id;
+  const newR = {
+    eventName: sanitizeHtml(req.body.eventName),
+    description: sanitizeHtml(req.body.description),
+    dateFrom: sanitizeHtml(req.body.dateFrom),
+    dateTo: sanitizeHtml(req.body.dateTo),
+    countryId: sanitizeHtml(req.body.countryId),
+  };
+  let sql = `
+  update events set
+  eventName = ?,
+  description = ?,
+  dateFrom = ?,
+  dateTo = ?,
+  countryId = ?
+  where id = ?
+  `;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(
+      sql,
+      [newR.eventName, newR.description, newR.dateFrom, newR.dateTo, newR.countryId, id],
+      function (error, result, fields) {
+        sendingPut(res, error, result, id, newR);
+      }
+    );
+    connection.release();
+  });
+});
+
+//#endregion events
 
 
 

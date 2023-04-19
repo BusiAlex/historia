@@ -180,9 +180,6 @@ Content-Type: application/json
 ### get countries
 get http://localhost:3000/countries
 
-### get events
-get http://localhost:3000/events
-
 ### get countries with events
 get http://localhost:3000/countryEvents
 
@@ -193,7 +190,7 @@ get http://localhost:3000/countries/2
 get http://localhost:3000/countriesEvents/2
 
 ### delete countries
-delete http://localhost:3000/countries/13
+delete http://localhost:3000/countries/5
 
 ### post countries
 post http://localhost:3000/countries
@@ -205,7 +202,7 @@ Content-Type: application/json
 }
 
 ### put countries
-put  http://localhost:3000/countries/13
+put  http://localhost:3000/countries/5
 Content-Type: application/json
 
 {
@@ -213,8 +210,38 @@ Content-Type: application/json
     "region": "Európa"
 }
 
+### get events
+get http://localhost:3000/events
 
+### get events by ID
+get http://localhost:3000/events/2
 
+### get events by country ID
+get http://localhost:3000/eventsByCountryId/2
 
+### delete events
+delete http://localhost:3000/events/5
 
+### post events
+post http://localhost:3000/events
+Content-Type: application/json
 
+{
+    "eventName": "1848-as Magyar forradalom és szabadságharc",
+    "description": "1848-ban magyarok szabadságot akartak de Ferenc József leverte és no bitches",
+    "dateFrom": "1848",
+    "dateTo": "1849",
+    "countryId": 1
+}
+
+### put events
+put http://localhost:3000/events/1
+Content-Type: application/json
+
+{
+    "eventName": "Kereszténység felvétele",
+    "description": "Géza fejedelem követeket küldött 1. Ottó német császárnak aki válaszul térítő papokat küldött.",
+    "dateFrom": "875",
+    "dateTo": "876",
+    "countryId": 1
+}

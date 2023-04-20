@@ -4,7 +4,7 @@
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col">
-        <div class="card h-100">
+        <div class="card border-0 h-100">
           <img
             src="../../Images/ZaszloMagyarorszag.png"
             class="card-img-top"
@@ -12,13 +12,14 @@
             alt="..."
           />
           <div class="card-body">
-            <a href="#" class="btn btn-dark" id="my-image">Kiválasztás</a>
+            <h5 class="card-title text-center">Magyarország</h5>
+            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
           </div>
         </div>
       </div>
 
       <div class="col">
-        <div class="card h-100">
+        <div class="card border-0 h-100">
           <img
             src="../../Images/ZaszloNemet.png"
             class="card-img-top"
@@ -26,13 +27,14 @@
             alt="..."
           />
           <div class="card-body">
-            <a href="#" class="btn btn-dark" id="my-image">Kiválasztás</a>
+            <h5 class="card-title text-center">Németország</h5>
+            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
           </div>
         </div>
       </div>
 
       <div class="col">
-        <div class="card h-100">
+        <div class="card border-0 h-100">
             <img
             src="../../Images/ZaszloUSA.png"
             class="card-img-top"
@@ -40,10 +42,27 @@
             alt="..."
             />
           <div class="card-body">
-            <a href="#" class="btn btn-dark" id="my-image">Kiválasztás</a>
+            <h5 class="card-title text-center">Amerikai Egyesült Államok</h5>
+            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
           </div>
         </div>
       </div>
+
+      <div class="col">
+        <div class="card border-0 h-100">
+            <img
+            src="../../Images/ZaszloUSA.png"
+            class="card-img-top"
+            id="my-image"
+            alt="..."
+            />
+          <div class="card-body">
+            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
+          </div>
+        </div>
+      </div>
+
+      
 
 
     </div>
@@ -57,6 +76,10 @@ const storeCounter = useCounterStore();
 </script>
 
 <style>
+.my-button{
+  margin-left: 121px;
+}
+
 #my-image {
   display: block;
   margin-left: auto;

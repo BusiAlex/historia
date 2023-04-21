@@ -3,80 +3,65 @@
     <center><h1>Válassz országot!</h1></center>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col">
+      <div class="col"
+      v-for="(country,index) in countries" :key="`country${index}`"
+      >
         <div class="card border-0 h-100">
           <img
-            src="../../Images/ZaszloMagyarorszag.png"
-            class="card-img-top"
+            :src="`../../public/${country.name}.png`"
+            class="card-img-top my-border"
             id="my-image"
             alt="..."
           />
           <div class="card-body">
-            <h5 class="card-title text-center">Magyarország</h5>
-            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
+            <h5 class="card-title text-center">{{ country.name }}</h5>
+            <router-link :to="`/EventsListWithContent/${country.id}`" class="btn btn-dark my-button">Kiválasztás</router-link>
           </div>
         </div>
       </div>
 
-      <div class="col">
-        <div class="card border-0 h-100">
-          <img
-            src="../../Images/ZaszloNemet.png"
-            class="card-img-top"
-            id="my-image"
-            alt="..."
-          />
-          <div class="card-body">
-            <h5 class="card-title text-center">Németország</h5>
-            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card border-0 h-100">
-            <img
-            src="../../Images/ZaszloUSA.png"
-            class="card-img-top"
-            id="my-image"
-            alt="..."
-            />
-          <div class="card-body">
-            <h5 class="card-title text-center">Amerikai Egyesült Államok</h5>
-            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-        <div class="card border-0 h-100">
-            <img
-            src="../../Images/ZaszloUSA.png"
-            class="card-img-top"
-            id="my-image"
-            alt="..."
-            />
-          <div class="card-body">
-            <a href="#" class="btn btn-dark my-button">Kiválasztás</a>
-          </div>
-        </div>
-      </div>
-
-      
+    </div>     
 
 
-    </div>
   </div>
 </template>
 
-<script setup>
-import Counter from "@/components/Counter.vue";
-import { useCounterStore } from "@/stores/counter";
-const storeCounter = useCounterStore();
+<script>
+import { useUrlStore } from "@/stores/url";
+import { useLoginStore } from "@/stores/login";
+const storeUrl = useUrlStore();
+const storeLogin = useLoginStore();
+export default {
+  data() {
+    return {
+      storeUrl,
+      storeLogin,
+      countries: [],
+    };
+  },
+  mounted() {
+    this.getCountries();
+  },
+  methods: {
+    async getCountries() {
+      let url = this.storeUrl.urlCountries;
+      const config = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.storeLogin.accessToken}`,
+        },
+      };
+      const response = await fetch(url, config);
+      const data = await response.json();
+      this.countries = data.data;
+      console.log(this.countries[0].name);
+    },
+  },
+};
 </script>
 
 <style>
-.my-button{
+.my-button {
   margin-left: 121px;
 }
 
@@ -88,5 +73,9 @@ const storeCounter = useCounterStore();
   height: 50%;
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.my-border{
+  border: 1px solid black;
 }
 </style>

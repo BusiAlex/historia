@@ -11,11 +11,14 @@ insert INTO countries
 
 select * from countries;
 
-insert into events
-  (id, eventName, description, datefrom, dateTo, countryId)
+insert events
+  (id, eventName, description, datefrom, dateTo, link, countryId)
   VALUES
-  (4, '2. Miklós cár uralkodása', '1888-ban megkoronázzák 2. Miklós cárt, végül a kommunisták családjával együtt brutálisan kivégzik.',
- '1888', '1920', 3);
+  (1, '2. Miklós cár uralkodása', '1888-ban megkoronázzák 2. Miklós cárt, végül a kommunisták családjával együtt brutálisan kivégzik.', 1888, 1920, 'https://hu.wikipedia.org/wiki/II._Mikl%C3%B3s_orosz_c%C3%A1r', 3),
+  (2, '56-os forradalom', '1956-ban kitör a forradalom, de a kommunisták leverik', 1956, 1956, 'https://hu.wikipedia.org/wiki/1956-os_forradalom', 1),
+  (3, 'Nemzetiszocializmus', '1934-ben Adolf Hitler hatalomra kerül, és megkezdődik Németországban a nemzetiszocializmus kora', 1934, 1945, 'https://hu.wikipedia.org/wiki/Nemzetiszocialista_N%C3%A9metorsz%C3%A1g', 2),
+  (4, 'Osztrák-Magyar Monarchia megalakulása', '1886-ban Ferenc József osztrák császárt magyar királlyá koronázzák meg megalakul a dualista állam', 1886, 1920, 'https://hu.wikipedia.org/wiki/Osztr%C3%A1k%E2%80%93Magyar_Monarchia', 1)
+;
 
 
 # Countries events inner join

@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,10 +6,19 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: () => import("../views/HomeView.vue"),
       meta: {
         requiresAuth: false,
-        title: "Home / Taxi",
+        title: "Home / História",
+      },
+    },
+    {
+      path: "/EventsListWithContent/:countryId",
+      name: "EventsListWithContent",
+      component: () => import("../views/EventsListWithContent.vue"),
+      meta: {
+        requiresAuth: false,
+        title: "Események és tartalmuk / História",
       },
     },
     {

@@ -2,11 +2,11 @@
   <div class="row">
     <!-- Esemény lista -->
     <div class="col-md-20">
-      <h1>{országnév} történelme</h1>
-      <table class="table table-secondary table-hover">
+      <h1>{{ country.name }} történelme</h1>
+      <table class="table table-secondary table-hover w-auto">
         <thead>
           <tr>
-            <th scope="col">Dátum</th>
+            <th scope="col">Mikor</th>
             <th scope="col">Esemény</th>
             <th scope="col">Forrás</th>
             <th scope="col">Részletek</th>
@@ -14,22 +14,13 @@
           </tr>
         </thead>
         <tbody class="table-group-divider">
-          <tr>
-            <th scope="row">1</th>
-            <td>Ohh nekem úgyis minden mindegy már.</td>
-            <td>Aha</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td colspan="2">Larry the Bird</td>
-            <td>@twitter</td>
+          <tr v-for="(event,index) in country.events" :key="`country${index}`">
+            <td class="text-nowrap" scope="row">{{ event.dateFrom }} - {{ event.dateTo }}</td>
+            <td>{{ event.eventName }}</td>
+            <td>
+              <a :href="event.link" type="button" class="btn btn-primary" target="_blank">Forrás</a>
+            </td>
+            <td><button type="button" class="btn btn-primary">Részletek</button></td>
           </tr>
         </tbody>
       </table>
@@ -38,6 +29,14 @@
 </template>
 
 <script>
+class Country{
+  constructor(name = null, region = null, events = []){
+    this.name = name;
+    this.region = region;
+    this.events = events;
+  }
+}
+
 import { useUrlStore } from "@/stores/url";
 import { useLoginStore } from "@/stores/login";
 const storeUrl = useUrlStore();
@@ -47,15 +46,20 @@ export default {
     return {
       storeUrl,
       storeLogin,
-      countries: [],
+      country: new Country(),
+      
     };
   },
   mounted() {
-    this.getCountries();
+    this.getCountryWithEvents();
+   
   },
   methods: {
-    async getCountries() {
-      let url = this.storeUrl.urlCountries;
+    async getCountryWithEvents() {
+      const param = this.$route.params;
+      console.log(param);
+      const id = param.countryId;
+      let url = `${this.storeUrl.urlCountriesWithEvents}/${id}`;
       const config = {
         method: "GET",
         headers: {
@@ -64,9 +68,21 @@ export default {
       };
       const response = await fetch(url, config);
       const data = await response.json();
-      this.countries = data.data;
-      console.log(this.countries[0].name);
+      this.country = data.data;
     },
+    async getEvents() {
+      let url = this.storeUrl.urlEvents;
+      const config = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${this.storeLogin.accessToken}`,
+        },
+      };
+      const response = await fetch(url, config);
+      const data = await response.json();
+      this.events = data.data;
+    },
+
   },
 };
 </script>

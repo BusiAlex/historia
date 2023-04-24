@@ -138,3 +138,11 @@ Content-Type: application/json
     "dateTo": "876",
     "countryId": 1
 }
+
+
+### minden ország minden eseménye countriesWithEvents
+get http://localhost:3000/countriesWithEvents
+
+
+### Adott ország minden eseménye countriesWithEvents
+get http://localhost:3000/countriesWithEvents/2

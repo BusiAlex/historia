@@ -215,6 +215,30 @@ app.put("/users/:id", (req, res) => {
 
 
 //#region countries
+//A függvény egy promisszal tér vissza
+function getEvents(res, countryId) {
+  return new Promise((resolve, reject) => {
+    let sql = `
+    select * from events 
+  where countryId = ?`;
+
+    pool.getConnection(function (error, connection) {
+      if (error) {
+        sendingGetError(res, "Server connecting error!");
+        return;
+      }
+      connection.query(sql, [countryId], async function (error, results, fields) {
+        if (error) {
+          const message = "Trips sql error";
+          sendingGetError(res, message);
+        }
+        //Az await miatt a car.trips a results-ot kapja értékül
+        resolve(results);
+      });
+      connection.release();
+    });
+  });
+}
 
 //get countries
 app.get("/countries", (req, res) => {
@@ -256,6 +280,70 @@ app.get("/countryEvents", (req, res) => {
         return;
       }
       sendingGet(res, null, results);
+    });
+    connection.release();
+  });
+});
+
+
+//Country a hozzátartozó eseményeivel
+app.get("/countriesWithEvents", (req, res) => {
+  let sql = `select * from countries`;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, async function (error, results, fields) {
+      if (error) {
+        message = "Country sql error";
+        sendingGetError(res, message);
+        return;
+      }
+
+      //Végigmegyünk a kocsikon, és berakjuk a trips-eket
+      for (const country of results) {
+        //A promise a results-ot ada vissza
+        country.events = await getEvents(res, country.id);
+      }
+      sendingGet(res, null, results);
+    });
+    connection.release();
+  });
+});
+
+
+app.get("/countriesWithEvents/:id", (req, res) => {
+  const id = req.params.id;
+  let sql = `select * from countries where id = ? `;
+
+  pool.getConnection(function (error, connection) {
+    if (error) {
+      sendingGetError(res, "Server connecting error!");
+      return;
+    }
+    connection.query(sql, [id], async function (error, results, fields) {
+      
+      if (error) {
+        const message = "Countries sql error";
+        sendingGetError(res, message);
+        return;
+      }
+      if (results.length == 0) {
+        const message = `Not found id: ${id}`;
+        sendingGetError(res, message);
+        return;
+      }
+      
+
+      //Végigmegyünk a kocsikon, és berakjuk a trips-eket
+      for (const country of results) {
+        //A promise a results-ot ada vissza
+        country.events = await getEvents(res, country.id);
+      }
+      sendingGetById(res, null, results[0], id);
+      
     });
     connection.release();
   });

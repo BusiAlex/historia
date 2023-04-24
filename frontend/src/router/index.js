@@ -75,7 +75,16 @@ const router = createRouter({
       component: () => import("../views/Count2View.vue"),
       meta: {
         requiresAuth: false,
-        title: "Counter 2 / Taxi",
+        title: "Counter 2 / historia",
+      },
+    },
+    {
+      path: "/textareatest",
+      name: "textareatest",
+      component: () => import("../views/TextareaTest.vue"),
+      meta: {
+        requiresAuth: false,
+        title: "Test / historia",
       },
     },
     {

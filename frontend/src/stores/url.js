@@ -45,6 +45,9 @@ export const useUrlStore = defineStore({
     },
     urlCountries(){
       return `${this.urlData}/countries`
+    },
+    urlCountriesWithEvents(){
+      return `${this.urlData}/countriesWithEvents`
     }
   },
 });

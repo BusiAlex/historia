@@ -1,17 +1,14 @@
 <template>
   <div>
     <h1>Editor</h1>
-    <!-- <main id="sample">
+    <main id="sample">
       <Editor
-        api-key="no-api-key"
+        api-key="2sunwstf5wgpgg17zlpewi8k80e6k3udiopxeqwk6tidxklg"
         :init="{
           plugins: 'lists link image table code help wordcount',
         }"
       />
-    </main> -->
-    <textarea id="classic" cols="30" rows="10">
-        
-    </textarea>
+    </main>
   </div>
 </template>
 
@@ -22,4 +19,5 @@ import  Editor  from '@tinymce/tinymce-vue';
 </script>
 
 <style>
+
 </style>

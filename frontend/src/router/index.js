@@ -81,7 +81,7 @@ const router = createRouter({
     {
       path: "/textareatest",
       name: "textareatest",
-      component: () => import("../views/TextareaTest.vue"),
+      component: () => import("../views/EventEditor.vue"),
       meta: {
         requiresAuth: false,
         title: "Test / historia",

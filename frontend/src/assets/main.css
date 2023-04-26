@@ -1,6 +1,7 @@
 .my-container {
+  max-height: 2000;
   max-width: 1200px;
-  border: 1px dashed black;
+  border: 1px solid black;
 }
 
 .my-width-100 {

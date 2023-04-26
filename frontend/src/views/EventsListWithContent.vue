@@ -21,6 +21,10 @@
               <a :href="event.link" type="button" class="btn btn-primary" target="_blank">Forrás</a>
             </td>
             <td><button type="button" class="btn btn-primary">Részletek</button></td>
+            <td><button
+             type="button"
+             class="btn btn-danger" 
+             @click="onClickDelete(event.id)">Törlés</button></td>
           </tr>
         </tbody>
       </table>
@@ -37,6 +41,26 @@ class Country{
   }
 }
 
+class Event{
+  constructor(
+    id = 0,
+    eventName = null,
+    region = null,
+    description = null,
+    dateFrom = null,
+    dateTo = null,
+    countryId = null
+    ){
+    this.id = id;
+    this.eventName = eventName;
+    this.description = description;
+    this.dateFrom = dateFrom;
+    this.dateTo = dateTo;
+    this.countryId = countryId;
+  }
+}
+
+
 import { useUrlStore } from "@/stores/url";
 import { useLoginStore } from "@/stores/login";
 const storeUrl = useUrlStore();
@@ -47,10 +71,13 @@ export default {
       storeUrl,
       storeLogin,
       country: new Country(),
-      
+      editableEvent: new Event(),
+      state: "view",
+      currentId: null,      
     };
   },
   mounted() {
+    this.getEvents();
     this.getCountryWithEvents();
    
   },
@@ -71,7 +98,7 @@ export default {
       this.country = data.data;
     },
     async getEvents() {
-      let url = this.storeUrl.urlEvents;
+      let url = this.storeUrl.urlCountriesWithEvents;
       const config = {
         method: "GET",
         headers: {
@@ -82,6 +109,32 @@ export default {
       const data = await response.json();
       this.events = data.data;
     },
+
+    //CRUD törlés kísérlet
+    async deleteEvent(id) {
+      let url = `${this.storeUrl.urlCountriesWithEvents}/${id}`;
+      const config = {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${this.storeLogin.accessToken}`,
+        },
+      };
+      const response = await fetch(url, config);
+      const data = await response.json();
+      this.events = data.data;
+      this.getEvents();
+    },
+
+    onClickDelete(id){
+      this.state = "delete";
+      this.deleteEvent(id);
+      this.currentId = null;
+    }
+
+
+    //CRUD törlés kísérlet vége
+
 
   },
 };

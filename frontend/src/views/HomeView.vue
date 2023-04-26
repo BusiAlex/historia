@@ -54,7 +54,6 @@ export default {
       const response = await fetch(url, config);
       const data = await response.json();
       this.countries = data.data;
-      console.log(this.countries[0].name);
     },
   },
 };

@@ -31,7 +31,7 @@
             >About</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/textareatest">Test</router-link>
+            <router-link class="nav-link" to="/textareatest">Esemény szerkesztő</router-link>
           </li>
           <li class="nav-item dropdown">
             <a

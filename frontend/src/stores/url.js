@@ -48,6 +48,6 @@ export const useUrlStore = defineStore({
     },
     urlCountriesWithEvents(){
       return `${this.urlData}/countriesWithEvents`
-    }
+    },
   },
 });

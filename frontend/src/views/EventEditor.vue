@@ -10,37 +10,28 @@
         }"
       />
     </main>
-    <textarea class="classic" id="text" v-model="text">
-
-    </textarea>
   </div>
 </template>
 
 <script>
-import Editor from '@tinymce/tinymce-vue';
-
+import Editor from "@tinymce/tinymce-vue";
 
 export default {
   components: {
-    Editor
+    Editor,
   },
-  data(){
+  data() {
     return {
       text: null,
-    }
+    };
   },
-mounted(){
-tinymce.init({
-  selector: "textarea.classic"
-});
-
-},
-}
-
-
-
+  mounted() {
+    tinymce.init({
+      selector: "textarea.classic",
+    });
+  },
+};
 </script>
 
 <style>
-
 </style>

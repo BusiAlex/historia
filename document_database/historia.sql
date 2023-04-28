@@ -7,7 +7,10 @@ CREATE DATABASE Historia
 insert INTO countries
   (id, name, region)
   VALUES
-  (3, 'Oroszország', 'Európa');
+  (1, 'Magyarország', 'Európa'),
+  (2, 'Németország', 'Európa'),
+  (3, 'Oroszország', 'Európa'),
+  (4, 'Amerikai Egyesült Államok', 'Amerika');
 
 select * from countries;
 

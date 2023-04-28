@@ -5,13 +5,22 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const pool = require("./config/database.js");
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
+const cors = require("cors");
 
 const {
   sendingInfo
 } = require("./config/sending.js");
 
+//#region middleware
 
 app.use(express.json());
+//#endregion middleware
+app.use(
+  cors({
+    origin: "*", //http://localhost:8080
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  })
+);
 //itt tároljuk a refrest tokeneket
 refreshTokens = [];
 
@@ -31,6 +40,9 @@ app.post("/login", (req, res) => {
         message: "Invalid username or password",
         accessToken: "",
         refreshToken: "",
+        userId: 0,
+        number: 0,
+        accessTime: "0"
       });
     }
 
@@ -48,14 +60,26 @@ app.post("/login", (req, res) => {
       refreshTokens.push(refreshToken);
 
       //mindkét tokent odaadjuk a bejelentkezőnek
-      sendingInfo(res, 1, "login successfully", { accessToken: accessToken, refreshToken: refreshToken }, 200);
+      sendingInfo(res, 1, "login successfully", {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        userId: results.id,
+        number: results.number,
+        accessTime: process.env.ACCESS_TIME
+      }, 200);
 
       console.log("accessToken /login:", accessToken);
       console.log("refreshToken /login:", refreshToken);
       console.log("refreshTokens /login:", refreshTokens);
       return;
     } else {
-      sendingInfo(res, 1, "Invalid username or password", { accessToken: "", refreshToken: "" }, 200);
+      sendingInfo(res, 1, "Invalid username or password", {
+        accessToken: "",
+        refreshToken: "",
+        userId: 0,
+        number: 0,
+        accessTime: "0"
+      }, 200);
       return;
     }
   });
@@ -91,7 +115,7 @@ app.post("/token", (req, res) => {
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
     if (error) {
       sendingInfo(res, 0, "Invalid Token", [], 403);
-    return;
+      return;
     }
     let accessToken = generateAccessToken({ name: user.name });
 

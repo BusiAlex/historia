@@ -31,7 +31,7 @@
     </button>
 
     <div class="position-absolute top-50 start-50 translate-middle">
-      <h1 class="my-fs-cim"><span class="p-2 ps-4 pe-4 my-bg-cim">Címszöveg</span> </h1>
+      <h1 class="my-fs-cim"><span class="p-2 ps-4 pe-4 my-bg-cim">HISTORY</span> </h1>
     </div>
 
   </div>
@@ -42,12 +42,18 @@ export default {};
 </script>
 <style>
 .my-bg-cim {
-  background-color: rgba(255,255,255,0.3);
+  background-color: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
 }
 .my-fs-cim {
-  font-size: 5rem;
+  font-size: 4rem;
   font-weight: normal;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.my-carouselimage{
+  background-image: 50px;
+  height: 257px;
 }
 
 </style>

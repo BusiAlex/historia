@@ -33,7 +33,7 @@ get http://localhost:3000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiZmVyaSIsImlhdCI6MTY3Njc1NDcwOCwiZXhwIjoxNjc2NzU1NjA4fQ.KYhG-su5z7jQJJzq9MYJr2J3lBnnPw6oZIjWRT4X6cs
 
 ### Egy user
-get http://localhost:3000/users/15
+get http://localhost:3000/users/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsiaWQiOjEsImZpcnN0TmFtZSI6IkLDqWxhIiwibGFzdE5hbWUiOiJOYWd5b24iLCJnZW5kZXIiOiJmw6lyZmkiLCJlbWFpbCI6Im5hZ3kuYmVsYUBnbWFpbC5jb20iLCJudW1iZXIiOjM0MzQzNTUzNH0sImlhdCI6MTY0NDMxNTE5NCwiZXhwIjoxNjQ0MzE4Nzk0fQ.q2ih8UiVs51Pa3UEc908O6tLt5Upl9NOlidEmQSksMQ
 
 ### User hozzáadása (regisztráció)
@@ -83,7 +83,7 @@ get http://localhost:3000/countries/2
 get http://localhost:3000/countriesEvents/2
 
 ### delete countries
-delete http://localhost:3000/countries/2712
+delete http://localhost:3000/countries/23
 
 ### post countries
 post http://localhost:3000/countries

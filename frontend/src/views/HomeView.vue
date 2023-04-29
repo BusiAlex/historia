@@ -1,7 +1,8 @@
 <template>
+  
   <div>
     <center>
-      <h1>Válassz országot!</h1>
+      <h1>Válasszon országot!</h1>
       <button
         type="button"
         class="btn btn-success btn-lg mb-4"
@@ -18,15 +19,22 @@
         v-for="(country, index) in countries"
         :key="`country${index}`"
       >
-        <div class="card border-0 h-100">
+        <div class="card border-0 my-card h-100">
           <img
             :src="`../../public/${country.name}.png`"
             class="card-img-top my-border"
             id="my-image"
             alt="..."
           />
+          <button 
+          type="button" 
+          class="btn btn-danger my-deletebtn"
+          v-if="storeLogin.loginSuccess"
+          >
+          <i class="bi bi-x-circle"></i>
+        </button>
           <div class="card-body">
-            <h5 class="card-title text-center">{{ country.name }}</h5>
+            <h5 class="card-title text-center">{{ country.name }} <h6>{{ country.region }}</h6></h5>
             <router-link
               :to="`/EventsListWithContent/${country.id}`"
               class="btn btn-dark my-button"
@@ -91,14 +99,14 @@
                 />
               </div>
               <!-- Ország zászlaja -->
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="formFile" 
                 class="form-label"
                 :src="`../../public/${newCountry.name}.png`"
                   >Ország zászlajának feltöltése</label
                 >
                 <input class="form-control" type="file" id="formFile" />
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -206,7 +214,7 @@ export default {
 
 <style>
 .my-button {
-  margin-left: 121px;
+  margin-left: 126px;
 }
 
 #my-image {
@@ -222,4 +230,19 @@ export default {
 .my-border {
   border: 1px solid black;
 }
+
+.my-deletebtn{
+  height: 30px;
+  width: 30px;
+  border-radius: 100%;
+  padding: 1px;
+  position: relative;
+  left: 280px;
+  bottom: 150px;
+}
+
+.my-card{
+  background-color: lightgray;
+}
+
 </style>

@@ -2,6 +2,7 @@
   max-height: 2000;
   max-width: 1200px;
   border: 1px solid black;
+  background-color: lightgray;
 }
 
 .my-width-100 {

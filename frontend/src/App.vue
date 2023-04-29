@@ -1,12 +1,13 @@
 
 <template>
-  <div class="container-fluid my-container p-0">
-    <!-- Carousel -->
-    <Carousel />
-    <!-- Menü -->
-    <Menu />
-    <RouterView />
-  </div>
+    <div class="container-fluid my-container p-0">
+      
+      <!-- Carousel -->
+      <Carousel />
+      <!-- Menü -->
+      <Menu />
+      <RouterView />
+    </div>
 </template>
 
 <script>
@@ -23,6 +24,5 @@ export default {
 </script>
 
 <style>
-
 </style>
 

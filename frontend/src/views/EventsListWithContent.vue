@@ -13,6 +13,7 @@
               <button
                 type="button"
                 class="btn btn-success btn-sm my-button-width"
+                v-if="storeLogin.loginSuccess"
                 @click="onClickNewEvent()"
               >
                 Új esemény
@@ -23,7 +24,7 @@
         </thead>
         <tbody class="table-group-divider">
           <tr v-for="(event, index) in country.events" :key="`country${index}`">
-            <td class="text-nowrap" scope="row">
+            <td class="text-nowrap" id="my-date" scope="row">
               {{ event.dateFrom }} - {{ event.dateTo }}
             </td>
             <td>{{ event.eventName }}</td>
@@ -52,6 +53,7 @@
             <td>
               <button
                 type="button"
+                v-if="storeLogin.loginSuccess"
                 class="btn btn-danger btn-sm"
                 @click="onClickDelete(event.id)"
               >
@@ -70,6 +72,7 @@
       tabindex="-1"
       aria-labelledby="modalCarModalLabel"
       aria-hidden="true"
+      data-bs-focus="false"
     >
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -88,15 +91,63 @@
           <!--#region Modal body -->
           <div class="modal-body p-3">
             <!-- Részletek szerkesztése -->
-            <div v-if="storeLogin.loginSuccess">
-              Szerkesztés
+            <div v-show="storeLogin.loginSuccess" class="row">
+              <!-- Event name -->
+              <div class="mb-3 col-md-8">
+                <label for="eventName" class="form-label">Esemény neve</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="eventName"
+                  v-model="event.eventName"
+                />
+              </div>
+
+              <div class="mb-3 col-md-2">
+                <label for="dateFrom" class="form-label">évszámtól</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="dateFrom"
+                  v-model="event.dateFrom"
+                />
+              </div>
+              <div class="mb-3 col-md-2">
+                <label for="dateTo" class="form-label">évszámig</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="dateTo"
+                  v-model="event.dateTo"
+                />
+              </div>
+              <div class="mb-3 col-12">
+                <label for="link" class="form-label">Forrás</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="link"
+                  v-model="event.link"
+                />
+              </div>
+              <div>
+                <main id="sample">
+                  <Editor
+                    v-model="event.description"
+                    api-key="2sunwstf5wgpgg17zlpewi8k80e6k3udiopxeqwk6tidxklg"
+                    :init="{
+                      plugins: 'lists link image table code help wordcount',
+                    }"
+                  />
+                </main>
+              </div>
             </div>
             <!-- Részletek megmutatása -->
             <div v-if="!storeLogin.loginSuccess">
-              <h2>{{ editableEvent.eventName }}</h2>
-              <p>{{editableEvent.dateFrom}} - {{editableEvent.dateTo}}</p>
-              <p><a :href="editableEvent.link">Forrás</a></p>
-              <div v-html="editableEvent.description"></div>
+              <h2>{{ event.eventName }}</h2>
+              <p>"{{ event.dateFrom }} - {{ event.dateTo }}</p>
+              <p><a :href="event.link">Forrás</a></p>
+              <div v-html="event.description"></div>
             </div>
           </div>
 
@@ -113,7 +164,8 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click="onClickSave()"
+              @click="onClickSave(event.id)"
+              v-if="storeLogin.loginSuccess"
             >
               Save changes
             </button>
@@ -127,11 +179,13 @@
 
 <script>
 import * as bootstrap from "bootstrap";
+import Editor from "@tinymce/tinymce-vue";
+
 class Country {
-  constructor(name = null, region = null, events = []) {
+  constructor(id = 0, name = null, region = null) {
+    this.id = id;
     this.name = name;
     this.region = region;
-    this.events = events;
   }
 }
 
@@ -139,7 +193,6 @@ class Event {
   constructor(
     id = 0,
     eventName = null,
-    region = null,
     description = null,
     dateFrom = null,
     dateTo = null,
@@ -159,12 +212,15 @@ import { useLoginStore } from "@/stores/login";
 const storeUrl = useUrlStore();
 const storeLogin = useLoginStore();
 export default {
+  components: {
+    Editor,
+  },
   data() {
     return {
       storeUrl,
       storeLogin,
       country: new Country(),
-      editableEvent: new Event(),
+      event: new Event(),
       state: "view",
       currentId: null,
     };
@@ -172,6 +228,9 @@ export default {
   mounted() {
     this.getEvents();
     this.getCountryWithEvents();
+    tinymce.init({
+      selector: "textarea.classic",
+    });
 
     this.modal = new bootstrap.Modal(document.getElementById("modalEvent"), {
       keyboard: false,
@@ -195,7 +254,7 @@ export default {
       this.country = data.data;
     },
     async getEvents() {
-      let url = this.storeUrl.urlCountriesWithEvents;
+      let url = this.storeUrl.urlEvents;
       const config = {
         method: "GET",
         headers: {
@@ -206,6 +265,23 @@ export default {
       const data = await response.json();
       this.events = data.data;
     },
+
+    async putEvent(id) {
+      let url = `${this.storeUrl.urlEvents}/${id}`;
+      const body = JSON.stringify(this.event);
+      const config = {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${this.storeLogin.accessToken}`,
+        },
+        body: body,
+      };
+      console.log(url);
+      const response = await fetch(url, config);
+      this.getCountryWithEvents();
+    },
+
     async getEventsById(id) {
       let url = `${this.storeUrl.urlEvents}/${id}`;
       const config = {
@@ -216,12 +292,12 @@ export default {
       };
       const response = await fetch(url, config);
       const data = await response.json();
-      this.editableEvent = data.data[0];
+      this.event = data.data[0];
     },
 
     //CRUD törlés kísérlet
     async deleteEvent(id) {
-      let url = `${this.storeUrl.urlCountriesWithEvents}/${id}`;
+      let url = `${this.storeUrl.urlEvents}/${id}`;
       const config = {
         method: "DELETE",
         headers: {
@@ -230,9 +306,7 @@ export default {
         },
       };
       const response = await fetch(url, config);
-      const data = await response.json();
-      this.events = data.data;
-      this.getEvents();
+      this.getCountryWithEvents();
     },
 
     onClickDelete(id) {
@@ -254,7 +328,8 @@ export default {
     onClickCancel() {
       this.modal.hide();
     },
-    onClickSave() {
+    onClickSave(id) {
+      this.putEvent(id);
       this.modal.hide();
     },
   },

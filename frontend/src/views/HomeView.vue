@@ -31,7 +31,10 @@
           class="btn btn-danger my-deletebtn"
           v-if="storeLogin.loginSuccess"
           >
-          <i class="bi bi-x-circle"></i>
+          <i 
+          class="bi bi-x-circle"
+          @click="onClickDelete(country.id)"
+          ></i>
         </button>
           <div class="card-body">
             <h5 class="card-title text-center">{{ country.name }} <h6>{{ country.region }}</h6></h5>
@@ -143,7 +146,8 @@ const storeUrl = useUrlStore();
 const storeLogin = useLoginStore();
 
 class Country {
-  constructor(name = null, region = null, flag = []) {
+  constructor(id = 0, name = null, region = null, flag = []) {
+    this.id = id;
     this.name = name;
     this.region = region;
     this.flag = flag;
@@ -201,12 +205,30 @@ export default {
       this.newCountry = new Country();
       this.modal.show();
     },
+
+    async deleteCountry(id){
+      let url = `${this.storeUrl.urlCountries}/${id}`;
+      const config = {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${this.storeLogin.accessToken}`,
+        },
+      };
+      const response = await fetch(url, config);
+      this.getCountries();
+    },
     onClickCancel() {
       this.modal.hide();
     },
     onClickSave() {
       this.postCountry();
       this.modal.hide();
+    },
+    onClickDelete(id){
+      this.state = "delete";
+      this.deleteCountry(id);
+      this.currendId = null;
     },
   },
 };
@@ -218,6 +240,7 @@ export default {
 }
 
 #my-image {
+  max-height: 130px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -237,8 +260,8 @@ export default {
   border-radius: 100%;
   padding: 1px;
   position: relative;
-  left: 280px;
-  bottom: 150px;
+  margin-left: 73%;
+  bottom: 50%;
 }
 
 .my-card{

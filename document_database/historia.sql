@@ -23,6 +23,7 @@ insert events
   (4, 'Osztrák-Magyar Monarchia megalakulása', '1886-ban Ferenc József osztrák császárt magyar királlyá koronázzák meg megalakul a dualista állam', 1886, 1920, 'https://hu.wikipedia.org/wiki/Osztr%C3%A1k%E2%80%93Magyar_Monarchia', 1)
 ;
 
+call historiagen();
 
 # Countries events inner join
 select * from countries c

@@ -608,15 +608,17 @@ app.put("/events/:id", (req, res) => {
   const id = req.params.id;
   const newR = {
     eventName: sanitizeHtml(req.body.eventName),
-    description: sanitizeHtml(req.body.description),
-    dateFrom: sanitizeHtml(req.body.dateFrom),
-    dateTo: sanitizeHtml(req.body.dateTo),
-    countryId: sanitizeHtml(req.body.countryId),
+    description: req.body.description,
+    link: sanitizeHtml(req.body.link),
+    dateFrom: req.body.dateFrom,
+    dateTo: req.body.dateTo,
+    countryId: req.body.countryId,
   };
   let sql = `
   update events set
   eventName = ?,
   description = ?,
+  link = ?,
   dateFrom = ?,
   dateTo = ?,
   countryId = ?
@@ -630,7 +632,7 @@ app.put("/events/:id", (req, res) => {
     }
     connection.query(
       sql,
-      [newR.eventName, newR.description, newR.dateFrom, newR.dateTo, newR.countryId, id],
+      [newR.eventName, newR.description, newR.link, newR.dateFrom, newR.dateTo, newR.countryId, id],
       function (error, result, fields) {
         sendingPut(res, error, result, id, newR);
       }

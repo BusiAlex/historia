@@ -113,17 +113,17 @@ get http://localhost:3000/events/1
 get http://localhost:3000/eventsByCountryId/2
 
 ### delete events
-delete http://localhost:3000/events/5
+delete http://localhost:3000/events/4
 
 ### post events
 post http://localhost:3000/events
 Content-Type: application/json
 
 {
-    "eventName": "1848-as Magyar forradalom és szabadságharc",
-    "description": "1848-ban magyarok szabadságot akartak de Ferenc József leverte és no bitches",
-    "dateFrom": "1848",
-    "dateTo": "1849",
+    "eventName": "56-os forradalom",
+    "description": "1956-ban kitört a forradalom a kommunizmus ellen, de leverték",
+    "dateFrom": "1956",
+    "dateTo": "1956",
     "countryId": 1
 }
 
@@ -132,8 +132,9 @@ put http://localhost:3000/events/1
 Content-Type: application/json
 
 {
-    "eventName": "Kereszténység felvétele",
+    "eventName": "Kereszténység felvétele x",
     "description": "Géza fejedelem követeket küldött 1. Ottó német császárnak aki válaszul térítő papokat küldött.",
+    "link": "https://hu.wikipedia.org/wiki/II._Mikl%C3%B3s_orosz_c%C3%A1r",
     "dateFrom": "875",
     "dateTo": "876",
     "countryId": 1

@@ -289,7 +289,6 @@ export default {
 }
 
 .my-card{
-  background-color: lightgray;
+  background-color: lightgrey;
 }
-
 </style>

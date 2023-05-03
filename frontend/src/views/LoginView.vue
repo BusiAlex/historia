@@ -18,7 +18,7 @@
         class="form-control"
         id="password"
         v-model="storeLogin.password"
-      />
+      /> 
     </div>
     <!-- Button login -->
     <button type="button" class="btn btn-primary mb-3" @click="login()">

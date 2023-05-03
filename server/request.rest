@@ -113,7 +113,7 @@ get http://localhost:3000/events/1
 get http://localhost:3000/eventsByCountryId/2
 
 ### delete events
-delete http://localhost:3000/events/4
+delete http://localhost:3000/events/15
 
 ### post events
 post http://localhost:3000/events

@@ -10,7 +10,7 @@
         <header class="modal-header" id="modalTitle">
           <!-- title -->
           <slot name="header">
-            Esemény törlése
+            Ország törlése
           </slot>
           <!-- button X -->
           <button
@@ -25,7 +25,7 @@
 
         <section class="modal-body" id="modalDescription">
           <slot name="body">
-            Biztos törölni szeretné az eseményt? (A törlés végleges)
+            Biztos törölni szeretné az országot? (A törlés végleges)
           </slot>
         </section>
 

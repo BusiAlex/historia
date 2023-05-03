@@ -77,7 +77,7 @@ app.post("/users", (req, res) => {
     userName: mySanitizeHtml(req.body.userName),
     email: mySanitizeHtml(req.body.email),
     password: req.body.password,
-    number: +mySanitizeHtml(req.body.number),
+    number: req.body.number,
   };
 
   //user ellenőrzés
@@ -172,7 +172,7 @@ app.put("/users/:id", (req, res) => {
     userName: mySanitizeHtml(req.body.userName),
     email: mySanitizeHtml(req.body.email),
     password: password,
-    number: +mySanitizeHtml(req.body.number),
+    number: req.body.number,
   };
   let sql = `
     UPDATE users SET
@@ -324,7 +324,7 @@ app.get("/countriesWithEvents/:id", (req, res) => {
       return;
     }
     connection.query(sql, [id], async function (error, results, fields) {
-      
+
       if (error) {
         const message = "Countries sql error";
         sendingGetError(res, message);
@@ -335,7 +335,7 @@ app.get("/countriesWithEvents/:id", (req, res) => {
         sendingGetError(res, message);
         return;
       }
-      
+
 
       //Végigmegyünk a kocsikon, és berakjuk a trips-eket
       for (const country of results) {
@@ -343,7 +343,7 @@ app.get("/countriesWithEvents/:id", (req, res) => {
         country.events = await getEvents(res, country.id);
       }
       sendingGetById(res, null, results[0], id);
-      
+
     });
     connection.release();
   });
@@ -430,8 +430,8 @@ app.delete("/countries/:id", (req, res) => {
 //countries post
 app.post("/countries", (req, res) => {
   const newR = {
-    name: sanitizeHtml(req.body.name),
-    region: sanitizeHtml(req.body.region),
+    name: mySanitizeHtml(req.body.name),
+    region: mySanitizeHtml(req.body.region),
   };
   let sql = `
   insert countries
@@ -459,8 +459,8 @@ app.post("/countries", (req, res) => {
 app.put("/countries/:id", (req, res) => {
   const id = req.params.id;
   const newR = {
-    name: sanitizeHtml(req.body.name),
-    region: sanitizeHtml(req.body.region),
+    name: mySanitizeHtml(req.body.name),
+    region: mySanitizeHtml(req.body.region),
   };
   let sql = `
     UPDATE countries SET
@@ -573,11 +573,11 @@ app.delete("/events/:id", (req, res) => {
 //post events
 app.post("/events", (req, res) => {
   const newR = {
-    eventName: sanitizeHtml(req.body.eventName),
-    description: sanitizeHtml(req.body.description),
-    dateFrom: +sanitizeHtml(req.body.dateFrom),
-    dateTo: +sanitizeHtml(req.body.dateTo),
-    countryId: +sanitizeHtml(req.body.countryId),
+    eventName: mySanitizeHtml(req.body.eventName),
+    description: myEventsSanitize(req.body.description),
+    dateFrom: req.body.dateFrom,
+    dateTo: req.body.dateTo,
+    countryId: req.body.countryId,
   };
 
   let sql = `
@@ -607,9 +607,9 @@ app.post("/events", (req, res) => {
 app.put("/events/:id", (req, res) => {
   const id = req.params.id;
   const newR = {
-    eventName: sanitizeHtml(req.body.eventName),
-    description: req.body.description,
-    link: sanitizeHtml(req.body.link),
+    eventName: mySanitizeHtml(req.body.eventName),
+    description: myEventsSanitize(req.body.description),
+    link: mySanitizeHtml(req.body.link),
     dateFrom: req.body.dateFrom,
     dateTo: req.body.dateTo,
     countryId: req.body.countryId,
@@ -655,10 +655,26 @@ function mySanitizeHtml(data) {
   });
 }
 
+function myEventsSanitize(data) {
+  return sanitizeHtml(data, {
+    allowedTags: ["address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
+      "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
+      "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
+      "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
+      "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
+      "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
+      "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img"],
+    allowedAttributes: {
+      a: ['href', 'name', 'target'],
+      img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading']
+    },
+  });
+}
+
+
 app.listen(process.env.APP_PORT, () => {
   console.log(
-    `Data server, listen port: ${process.env.APP_PORT} (Auth: ${
-      process.env.AUTH_ON == 1 ? "on" : "off"
+    `Data server, listen port: ${process.env.APP_PORT} (Auth: ${process.env.AUTH_ON == 1 ? "on" : "off"
     })`
   );
 });

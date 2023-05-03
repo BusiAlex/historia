@@ -6,7 +6,7 @@
       <table class="table table-secondary table-hover w-auto">
         <thead>
           <tr>
-            <th scope="col">Mikor</th>
+            <th scope="col">Évszám</th>
             <th scope="col">Esemény</th>
             <th scope="col">Forrás</th>
             <th scope="col">
@@ -19,10 +19,10 @@
                 Új esemény
               </button>
             </th>
-            <th scope="col"></th>
+            <th v-if="storeLogin.loginSuccess"><i class="bi bi-trash3-fill my-icon"></i></th>
           </tr>
         </thead>
-        <tbody class="table-group-divider">
+        <tbody class="table-group-divider">   
           <tr v-for="(event, index) in country.events" :key="`country${index}`">
             <td class="text-nowrap" id="my-date" scope="row">
               {{ event.dateFrom }} - {{ event.dateTo }}
@@ -174,12 +174,137 @@
       </div>
     </div>
     <!--#endregion Modal -->
+
+    <!-- Új eseményért felelős modal -->
+    <!--#region NewModal -->
+    <div
+      class="modal fade"
+      id="NewModalEvent"
+      tabindex="-1"
+      aria-labelledby="modalCarModalLabel"
+      aria-hidden="true"
+      data-bs-focus="false"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              {{ stateTitle }}
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              @click="onClickCancel()"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <!--#region Modal body -->
+          <div class="modal-body p-3">
+            <!-- Részletek szerkesztése -->
+            <div v-show="storeLogin.loginSuccess" class="row">
+              <!-- Event name -->
+              <div class="mb-3 col-md-8">
+                <label for="eventName" class="form-label">Esemény neve</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="eventName"
+                  v-model="event.eventName"
+                />
+              </div>
+
+              <div class="mb-3 col-md-2">
+                <label for="dateFrom" class="form-label">évszámtól</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="dateFrom"
+                  v-model="event.dateFrom"
+                />
+              </div>
+              <div class="mb-3 col-md-2">
+                <label for="dateTo" class="form-label">évszámig</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="dateTo"
+                  v-model="event.dateTo"
+                />
+              </div>
+              <div class="mb-3 col-12">
+                <label for="link" class="form-label">Forrás</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="link"
+                  v-model="event.link"
+                />
+              </div>
+              <div>
+                <main id="sample">
+                  <Editor
+                    v-model="event.description"
+                    api-key="2sunwstf5wgpgg17zlpewi8k80e6k3udiopxeqwk6tidxklg"
+                    :init="{
+                      plugins: 'lists link image table code help wordcount',
+                    }"
+                  />
+                </main>
+              </div>
+            </div>
+            <!-- Részletek megmutatása -->
+            <div v-if="!storeLogin.loginSuccess">
+              <h2>{{ event.eventName }}</h2>
+              <p>"{{ event.dateFrom }} - {{ event.dateTo }}</p>
+              <p><a :href="event.link">Forrás</a></p>
+              <div v-html="event.description"></div>
+            </div>
+          </div>
+
+          <!--#endregion NewModal body -->
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              @click="onClickCancel()"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="onClickSave(event.countryId)"
+              v-if="storeLogin.loginSuccess"
+            >
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--#endregion NewModal -->
+
+      <!-- delete event confirmation -->
+    <Menu></Menu>
+    <YesNo
+      v-if="yesNoShow"
+      yesNoTitle="Esemény törlés"
+      yesNoMessage="Biztos törölni szeretné az eseményt? (A törlés végleges)"
+      @yes="onClickDeleteOK()"
+      @no="onClickDeleteCancel()"
+    ></YesNo>
+
+
+
   </div>
 </template>
 
 <script>
 import * as bootstrap from "bootstrap";
 import Editor from "@tinymce/tinymce-vue";
+import YesNo from "../components/YesNo.vue";
 
 class Country {
   constructor(id = 0, name = null, region = null) {
@@ -194,6 +319,7 @@ class Event {
     id = 0,
     eventName = null,
     description = null,
+    link = null,
     dateFrom = null,
     dateTo = null,
     countryId = null
@@ -201,6 +327,7 @@ class Event {
     this.id = id;
     this.eventName = eventName;
     this.description = description;
+    this.link = link;
     this.dateFrom = dateFrom;
     this.dateTo = dateTo;
     this.countryId = countryId;
@@ -209,11 +336,12 @@ class Event {
 
 import { useUrlStore } from "@/stores/url";
 import { useLoginStore } from "@/stores/login";
+ 
 const storeUrl = useUrlStore();
 const storeLogin = useLoginStore();
 export default {
   components: {
-    Editor,
+    Editor, YesNo
   },
   data() {
     return {
@@ -223,6 +351,7 @@ export default {
       event: new Event(),
       state: "view",
       currentId: null,
+      yesNoShow: false,
     };
   },
   mounted() {
@@ -235,6 +364,13 @@ export default {
     this.modal = new bootstrap.Modal(document.getElementById("modalEvent"), {
       keyboard: false,
     });
+
+    this.Newmodal = new bootstrap.Modal(
+      document.getElementById("NewModalEvent"),
+      {
+        keyboard: false,
+      }
+    );
     // this.form = document.querySelector(".needs-validation");
   },
   methods: {
@@ -282,6 +418,23 @@ export default {
       this.getCountryWithEvents();
     },
 
+    async postEvent() {
+      this.event.countryId = this.$route.params.countryId;
+      let url = this.storeUrl.urlEvents;
+      const body = JSON.stringify(this.event);
+      console.log(this.event);
+      const config = {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${this.storeLogin.accessToken}`,
+        },
+        body: body,
+      };
+      const response = await fetch(url, config);
+      this.getCountryWithEvents();
+    },
+
     async getEventsById(id) {
       let url = `${this.storeUrl.urlEvents}/${id}`;
       const config = {
@@ -295,7 +448,6 @@ export default {
       this.event = data.data[0];
     },
 
-    //CRUD törlés kísérlet
     async deleteEvent(id) {
       let url = `${this.storeUrl.urlEvents}/${id}`;
       const config = {
@@ -308,30 +460,44 @@ export default {
       const response = await fetch(url, config);
       this.getCountryWithEvents();
     },
-
     onClickDelete(id) {
       this.state = "delete";
-      this.deleteEvent(id);
-      this.currentId = null;
+      this.yesNoShow = true;
+      this.currentId = id;
     },
-    //CRUD törlés kísérlet vége
 
     onClickNewEvent() {
-      console.log("Új esemény felvitele.");
-      this.modal.show();
+      this.state = "new";
+      this.event = new Event();
+      this.Newmodal.show();
     },
     onClickDetails(id) {
+      this.state = "edit";
       console.log("Részletek", id);
       this.getEventsById(id);
       this.modal.show();
     },
     onClickCancel() {
       this.modal.hide();
+      this.Newmodal.hide();
     },
     onClickSave(id) {
-      this.putEvent(id);
+      if (this.state == "new") {
+        this.postEvent();
+      } else if (this.state == "edit") {
+        this.putEvent(id);
+      }
       this.modal.hide();
+      this.Newmodal.hide();
+      this.getCountryWithEvents();
     },
+    onClickDeleteOK() {
+      this.deleteEvent(this.currentId);
+      this.yesNoShow = false;
+    },
+    onClickDeleteCancel() {
+      this.yesNoShow = false;
+    }
   },
 };
 </script>
@@ -357,5 +523,11 @@ export default {
 
 .my-button-width {
   width: 100px;
+}
+
+.my-icon{
+  position: relative;
+  left: 16px;
+  
 }
 </style>

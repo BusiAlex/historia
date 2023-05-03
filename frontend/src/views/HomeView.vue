@@ -135,10 +135,23 @@
       </div>
     </div>
     <!--#endregion Modal -->
+
+    <!-- delete country confirmation -->
+    <Menu></Menu>
+    <YesNoCountry
+      v-if="yesNoShow"
+      yesNoTitle="Ország törlés"
+      yesNoMessage="Biztos törölni szeretné az országot? (A törlés végleges)"
+      @yes="onClickDeleteOK()"
+      @no="onClickDeleteCancel()"
+    ></YesNoCountry>
+
+
   </div>
 </template>
 
 <script>
+import YesNoCountry from "../components/YesNoCountry.vue";
 import * as bootstrap from "bootstrap";
 import { useUrlStore } from "@/stores/url";
 import { useLoginStore } from "@/stores/login";
@@ -155,6 +168,9 @@ class Country {
 }
 
 export default {
+  components: {
+    YesNoCountry
+  },
   data() {
     return {
       state: "view",
@@ -163,6 +179,7 @@ export default {
       storeLogin,
       countries: [],
       newCountry: new Country(),
+      yesNoShow: false,
     };
   },
   mounted() {
@@ -227,9 +244,16 @@ export default {
     },
     onClickDelete(id){
       this.state = "delete";
-      this.deleteCountry(id);
-      this.currendId = null;
+      this.yesNoShow = true;
+      this.currendId = id;
     },
+    onClickDeleteOK() {
+      this.deleteCountry(this.currendId);
+      this.yesNoShow = false;
+    },
+    onClickDeleteCancel() {
+      this.yesNoShow = false;
+    }
   },
 };
 </script>

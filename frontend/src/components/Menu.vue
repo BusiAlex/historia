@@ -1,9 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
-      <router-link class="navbar-brand" to="/"
-        @click="onClickMenu(1)"
-      >Taxi</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -21,95 +18,21 @@
             <router-link class="nav-link active" aria-current="page" to="/"
             :class="{active: menuState === 2}"
             @click="onClickMenu(2)"
-              >Home</router-link
+              >Ország választó</router-link
             >
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/about"
-            :class="{active: menuState === 3}"
-            @click="onClickMenu(3)"
-            >About</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/textareatest">Esemény szerkesztő</router-link>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              :class="{active: menuState === 4}"
-              @click="onClickMenu(4)"
-            >
-              Taxiállomás
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <router-link class="dropdown-item" to="/taxiFuvarjai"
-                  >Taxi és fuvarjai</router-link
-                >
-              </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
-                <router-link class="dropdown-item" to="/taxiKezeles"
-                  :class="{ disabled: !storeLogin.loginSuccess }"
-                  >Taxik kezelése</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/fuvarBevitel"
-                  >Fuvar bevitel</router-link
-                >
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Counter
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <router-link class="dropdown-item" to="/count1"
-                  :class="{active: menuState === 5}"
-                  @click="onClickMenu(5)"
-                  >Counter1</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/count2"
-                  :class="{active: menuState === 6}"
-                  @click="onClickMenu(6)"
-                  >Counter2</router-link
-                >
-              </li>
-            </ul>
-          </li>
           <li class="nav-item" v-if="!storeLogin.loginSuccess">
-            <router-link class="nav-link" to="/login">Login</router-link>
+            <router-link class="nav-link" to="/login">Bejelentkezés</router-link>
           </li>
           <li class="nav-item" v-if="storeLogin.loginSuccess" @click="logout()">
             <router-link class="nav-link" to="/login"
-              >Logout ({{ storeLogin.userName }})</router-link
+              >Kijelentkezés ({{ storeLogin.userName }})</router-link
             >
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>

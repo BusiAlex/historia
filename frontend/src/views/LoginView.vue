@@ -2,7 +2,7 @@
   <div class="p-3 my-width-login">
     <!-- user name -->
     <div class="mb-3">
-      <label for="userName" class="form-label">User name:</label>
+      <label for="userName" class="form-label">Felhasználónév:</label>
       <input
         type="text"
         class="form-control"
@@ -12,7 +12,7 @@
     </div>
     <!-- password -->
     <div class="mb-3">
-      <label for="password" class="form-label">password:</label>
+      <label for="password" class="form-label">Jelszó:</label>
       <input
         type="password"
         class="form-control"
@@ -22,7 +22,7 @@
     </div>
     <!-- Button login -->
     <button type="button" class="btn btn-primary mb-3" @click="login()">
-      Login
+      Bejelentkezés
     </button>
 
     <div v-if="loginErrorMessage" class="alert alert-danger" role="alert">

@@ -253,7 +253,7 @@ export default {
     },
     onClickDeleteCancel() {
       this.yesNoShow = false;
-    }
+    },
   },
 };
 </script>

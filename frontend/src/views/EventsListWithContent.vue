@@ -19,7 +19,7 @@
                 Új esemény
               </button>
             </th>
-            <th v-if="storeLogin.loginSuccess"><i class="bi bi-trash3-fill my-icon"></i></th>
+            <th></th>
           </tr>
         </thead>
         <tbody class="table-group-divider">   
@@ -355,7 +355,6 @@ export default {
     };
   },
   mounted() {
-    this.getEvents();
     this.getCountryWithEvents();
     tinymce.init({
       selector: "textarea.classic",
@@ -388,18 +387,6 @@ export default {
       const response = await fetch(url, config);
       const data = await response.json();
       this.country = data.data;
-    },
-    async getEvents() {
-      let url = this.storeUrl.urlEvents;
-      const config = {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${this.storeLogin.accessToken}`,
-        },
-      };
-      const response = await fetch(url, config);
-      const data = await response.json();
-      this.events = data.data;
     },
 
     async putEvent(id) {
@@ -497,6 +484,17 @@ export default {
     },
     onClickDeleteCancel() {
       this.yesNoShow = false;
+    },
+    SortDate(compare){
+      function compare(a,b){
+        if (a.dateFrom < b.dateFrom) {
+          return -1;
+        }else if (a.dateFrom > b.dateFrom) {
+          return 1;
+        }
+        return this.arrays.sort(compare);
+      
+      }
     }
   },
 };
@@ -525,9 +523,4 @@ export default {
   width: 100px;
 }
 
-.my-icon{
-  position: relative;
-  left: 16px;
-  
-}
 </style>

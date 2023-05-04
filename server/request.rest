@@ -110,7 +110,7 @@ get http://localhost:3000/events
 get http://localhost:3000/events/1
 
 ### get events by country ID
-get http://localhost:3000/eventsByCountryId/2
+get http://localhost:3000/eventsByCountryId/1
 
 ### delete events
 delete http://localhost:3000/events/16
@@ -146,4 +146,4 @@ get http://localhost:3000/countriesWithEvents
 
 
 ### Adott ország minden eseménye countriesWithEvents
-get http://localhost:3000/countriesWithEvents/2
+get http://localhost:3000/countriesWithEvents/1

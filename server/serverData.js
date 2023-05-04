@@ -220,7 +220,8 @@ function getEvents(res, countryId) {
   return new Promise((resolve, reject) => {
     let sql = `
     select * from events 
-  where countryId = ?`;
+  where countryId = ?
+  order by dateFrom`;
 
     pool.getConnection(function (error, connection) {
       if (error) {
@@ -536,6 +537,7 @@ app.get("/eventsByCountryId/:id", (req, res) => {
   let sql = `
   select * from events
     where countryId = ?
+    order by dateFrom
   `;
 
   pool.getConnection(function (error, connection) {

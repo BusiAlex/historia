@@ -1,5 +1,5 @@
 <template>
-  <div class="p-3 my-width-login">
+  <div class="p-3 my-width-login ">
     <!-- user name -->
     <div class="mb-3">
       <label for="userName" class="form-label">Felhasználónév:</label>
@@ -102,5 +102,9 @@ export default {
 <style>
 .my-width-login {
   max-width: 500px;
+  margin-top: 10%;
+  margin-left: 25%;
+  margin-right: 25%;
+ margin-bottom: 10%; 
 }
 </style>

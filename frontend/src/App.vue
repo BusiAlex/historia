@@ -1,13 +1,15 @@
-
 <template>
+  <div class="my-background">
+
     <div class="container-fluid my-container p-0">
       
       <!-- Carousel -->
       <Carousel />
       <!-- Menü -->
       <Menu />
-      <RouterView />
+      <RouterView class="my-countrybackground" />
     </div>
+  </div>
 </template>
 
 <script>
@@ -24,4 +26,16 @@ export default {
 </script>
 
 <style>
+
+.my-background{
+  /* background-image: url("../public/CountryBackground.jpg");
+  background-repeat: no-repeat;
+  background-size: cover; */
+
+}
+
+.my-countrybackground{  
+  background-image: url("../public/CountryBackgroundWHITE.jpg");
+  background-size: cover;
+}
 </style>

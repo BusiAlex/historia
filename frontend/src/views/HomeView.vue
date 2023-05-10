@@ -1,11 +1,10 @@
 <template>
-  
-  <div>
+  <div class="my-countrybackgroundrendezes ">
     <center>
       <h1>Válasszon országot!</h1>
       <button
         type="button"
-        class="btn btn-success btn-lg mb-4"
+        class="btn btn-success btn-lg mb-4 mt-5"
         v-if="storeLogin.loginSuccess"
         @click="onClickNewCountry()"
       >
@@ -13,7 +12,7 @@
       </button>
     </center>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4 ms-5 me-5">
       <div
         class="col"
         v-for="(country, index) in countries"
@@ -26,18 +25,19 @@
             id="my-image"
             alt="..."
           />
-          <button 
-          type="button" 
-          class="btn btn-danger my-deletebtn"
-          v-if="storeLogin.loginSuccess"
+          
+        <button
+            type="button"
+            class="btn btn-danger my-deletebtn"
+            v-if="storeLogin.loginSuccess"
           >
-          <i 
-          class="bi bi-x-circle"
-          @click="onClickDelete(country.id)"
-          ></i>
-        </button>
-          <div class="card-body">
-            <h5 class="card-title text-center">{{ country.name }} <h6>{{ country.region }}</h6></h5>
+            <i class="bi bi-x-circle" @click="onClickDelete(country.id)"></i>
+          </button>
+          <div class="card-body " >
+            <h5 class="card-title text-center ">
+              {{ country.name }}
+              <h6>{{ country.region }}</h6>
+            </h5>
             <router-link
               :to="`/EventsListWithContent/${country.id}`"
               class="btn btn-dark my-button"
@@ -145,8 +145,6 @@
       @yes="onClickDeleteOK()"
       @no="onClickDeleteCancel()"
     ></YesNoCountry>
-
-
   </div>
 </template>
 
@@ -169,7 +167,7 @@ class Country {
 
 export default {
   components: {
-    YesNoCountry
+    YesNoCountry,
   },
   data() {
     return {
@@ -223,7 +221,7 @@ export default {
       this.modal.show();
     },
 
-    async deleteCountry(id){
+    async deleteCountry(id) {
       let url = `${this.storeUrl.urlCountries}/${id}`;
       const config = {
         method: "DELETE",
@@ -242,7 +240,7 @@ export default {
       this.postCountry();
       this.modal.hide();
     },
-    onClickDelete(id){
+    onClickDelete(id) {
       this.state = "delete";
       this.yesNoShow = true;
       this.currendId = id;
@@ -259,8 +257,11 @@ export default {
 </script>
 
 <style>
+
 .my-button {
-  margin-left: 126px;
+  margin-left: 110px;
+
+
 }
 
 #my-image {
@@ -278,7 +279,7 @@ export default {
   border: 1px solid black;
 }
 
-.my-deletebtn{
+.my-deletebtn {
   height: 30px;
   width: 30px;
   border-radius: 100%;
@@ -288,7 +289,9 @@ export default {
   bottom: 50%;
 }
 
-.my-card{
-  background-color: lightgrey;
+.my-card {
+  background-color: rgba(255, 255, 255, 0);
+
 }
+
 </style>

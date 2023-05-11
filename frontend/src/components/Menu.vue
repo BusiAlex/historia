@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-md navbar-light bg-light" id="my-navbar">
     <div class="container-fluid">
       <button
         class="navbar-toggler"
@@ -15,17 +15,17 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link active" aria-current="page" to="/"
+            <router-link class="nav-link active my-text0" aria-current="page" to="/"
             :class="{active: menuState === 2}"
             @click="onClickMenu(2)"
               >Ország választó</router-link
             >
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/textareatest">Esemény szerkesztő</router-link>
+            <router-link class="nav-link active my-text1" to="/textareatest">Esemény szerkesztő</router-link>
           </li>
           <li class="nav-item" v-if="!storeLogin.loginSuccess">
-            <router-link class="nav-link" to="/login">Bejelentkezés</router-link>
+            <router-link class="nav-link active my-text2" to="/login">Bejelentkezés</router-link>
           </li>
           <li class="nav-item" v-if="storeLogin.loginSuccess" @click="logout()">
             <router-link class="nav-link" to="/login"
@@ -78,6 +78,24 @@ function onClickMenu(number){
 </script>
 
 <style>
+
+.my-text0{
+  font-family: cursive;
+}
+
+.my-text1{
+  font-family: cursive;
+}
+
+.my-text2{
+  font-family: cursive;
+}
+
+#my-navbar{
+  /* background-color: rgb(255, 249, 193)  !important; */
+  background-color: grey !important;
+}
+
 /* .router-link-active {
   color: white !important
 }

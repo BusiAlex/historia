@@ -1,10 +1,10 @@
 <template>
-  <div class="my-countrybackgroundrendezes ">
+  <div class="my-countrybackgroundrendezes">
     <center>
-      <h1>Válasszon országot!</h1>
+      <h1 class="mb-5">Válasszon országot!</h1>
       <button
         type="button"
-        class="btn btn-success btn-lg mb-4 mt-5"
+        class="btn btn-success btn-lg mb-3 mt-5"
         v-if="storeLogin.loginSuccess"
         @click="onClickNewCountry()"
       >
@@ -12,37 +12,43 @@
       </button>
     </center>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4 ms-5 me-5">
+    <div class="row row-cols-1 row-cols-md-4 g-4 ms-4 me-5 ps-3 pe-5 my-p">
       <div
         class="col"
         v-for="(country, index) in countries"
         :key="`country${index}`"
       >
-        <div class="card border-0 my-card h-100">
-          <img
+        <div class="card border-0 my-card h-100 mt-5" style="width: 170px;">
+          
+
+            <img
             :src="`../../public/${country.name}.png`"
             class="card-img-top my-border"
             id="my-image"
             alt="..."
-          />
-          
-        <button
+            />
+            
+            <button
             type="button"
             class="btn btn-danger my-deletebtn"
             v-if="storeLogin.loginSuccess"
-          >
+            >
             <i class="bi bi-x-circle" @click="onClickDelete(country.id)"></i>
           </button>
-          <div class="card-body " >
-            <h5 class="card-title text-center ">
+        
+          <div class="card-body">
+            <h5 class="card-title text-center my-countryname">
               {{ country.name }}
-              <h6>{{ country.region }}</h6>
             </h5>
-            <router-link
-              :to="`/EventsListWithContent/${country.id}`"
-              class="btn btn-dark my-button"
-              >Kiválasztás asd</router-link
-            >
+            <h6 class="card-title text-center">{{ country.region }}</h6>
+
+            <div class="text-center">
+              <router-link
+                :to="`/EventsListWithContent/${country.id}`"
+                class="btn btn-dark"
+                >Kiválasztás</router-link
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -257,20 +263,13 @@ export default {
 </script>
 
 <style>
-
-.my-button {
-  margin-left: 110px;
-
-
-}
-
 #my-image {
-  max-height: 130px;
+  max-height: 120px;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
-  height: 50%;
+  width: 170px;
+  height: 120px;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -279,19 +278,40 @@ export default {
   border: 1px solid black;
 }
 
+.my-countryname{
+  font-size: 20.6px;
+  font-weight: bold;
+}
+
+.my-p{
+  padding-left: 150px !important;
+}
+
+.my-flag{
+  position: relative;
+  width: 170px;
+}
+
 .my-deletebtn {
-  height: 30px;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  left: 30px;
   width: 30px;
   border-radius: 100%;
   padding: 1px;
-  position: relative;
   margin-left: 73%;
-  bottom: 50%;
+  height: 30px;
+  bottom: 43%;
+  /*
+  position: relative;
+  */
 }
 
 .my-card {
   background-color: rgba(255, 255, 255, 0);
-
 }
-
+.my-gap {
+  margin: -30px;
+}
 </style>

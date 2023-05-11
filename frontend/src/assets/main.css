@@ -3,6 +3,9 @@
   max-width: 1200px;
   border: 1px solid black;
   background-color: lightgray;
+  background-image: url("../public/CountryBackgroundWHITE.jpg");
+  background-size: cover;
+  
 }
 
 .my-width-100 {

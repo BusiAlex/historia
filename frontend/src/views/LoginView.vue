@@ -1,17 +1,19 @@
 <template>
-  <div class="p-3 my-width-login ">
-    <!-- user name -->
-    <div class="mb-3">
-      <label for="userName" class="form-label">Felhasználónév:</label>
+  <div class="p-3 my-width-login my-loginview ">
+ <div class="mt-5 ms-5 me-5 ">
+
+   <!-- user name -->
+   <div class="mb-3">
+     <label for="userName" class="form-label">Felhasználónév:</label>
       <input
         type="text"
-        class="form-control"
+        class="form-control "
         id="userName"
         v-model="storeLogin.userName"
       />
     </div>
     <!-- password -->
-    <div class="mb-3">
+    <div class="mb-3 ">
       <label for="password" class="form-label">Jelszó:</label>
       <input
         type="password"
@@ -21,13 +23,14 @@
       /> 
     </div>
     <!-- Button login -->
-    <button type="button" class="btn btn-primary mb-3" @click="login()">
+    <button type="button" class="btn btn-primary mb-3 " @click="login()">
       Bejelentkezés
     </button>
-
+    
     <div v-if="loginErrorMessage" class="alert alert-danger" role="alert">
       {{ loginErrorMessage }}
     </div>
+  </div>
   </div>
 </template>
 
@@ -101,11 +104,14 @@ export default {
 </script>
 
 <style>
+
+
+
 .my-width-login {
   max-width: 500px;
   margin-top: 10%;
   margin-left: 25%;
   margin-right: 25%;
- margin-bottom: 10%; 
+ margin-bottom: 10%;
 }
 </style>

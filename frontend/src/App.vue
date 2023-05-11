@@ -28,14 +28,13 @@ export default {
 <style>
 
 .my-background{
-  /* background-image: url("../public/CountryBackground.jpg");
-  background-repeat: no-repeat;
-  background-size: cover; */
+  background-image: url("../public/KeretNagyobb.jpg");
 
 }
 
 .my-countrybackground{  
   background-image: url("../public/CountryBackgroundWHITE.jpg");
   background-size: cover;
+  height: 1200px;
 }
 </style>

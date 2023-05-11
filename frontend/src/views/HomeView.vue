@@ -41,7 +41,7 @@
             <router-link
               :to="`/EventsListWithContent/${country.id}`"
               class="btn btn-dark my-button"
-              >Kiválasztás</router-link
+              >Kiválasztás asd</router-link
             >
           </div>
         </div>

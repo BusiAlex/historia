@@ -105,8 +105,6 @@ export default {
 
 <style>
 
-
-
 .my-width-login {
   max-width: 500px;
   margin-top: 10%;

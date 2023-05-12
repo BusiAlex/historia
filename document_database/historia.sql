@@ -92,3 +92,5 @@ delete from countries;
 select * from events;
 
 select * from countries;
+
+select * from users;

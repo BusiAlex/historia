@@ -1,15 +1,18 @@
 <template>
-  <div class="my-background">
+  <div>
 
-    <div class="container-fluid my-container p-0">
+      <img src="../public/KeretKisebb.jpg" alt="keret" class="my-backgroundimage">
+      <img src="../public/KeretKisebb.jpg" alt="keret" class="my-backgroundimageRight">
       
-      <!-- Carousel -->
-      <Carousel />
-      <!-- Menü -->
-      <Menu />
-      <RouterView class="my-countrybackground" />
+      <div class="container-fluid my-container p-0">
+        
+        <!-- Carousel -->
+        <Carousel />
+        <!-- Menü -->
+        <Menu />
+        <RouterView class="my-countrybackground" />
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -27,10 +30,25 @@ export default {
 
 <style>
 
-.my-background{
-  background-image: url("../public/KeretNagyobb.jpg");
-
+.my-backgroundimageRight{
+  transform: rotate(-180deg);
+  position: fixed;
+  top: 0;
+  left: 70%;
+  width: 30%;
+  height: 100%;
+  z-index: -1;
 }
+
+.my-backgroundimage{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  z-index: -1;
+}
+
 
 .my-countrybackground{  
   background-image: url("../public/CountryBackgroundWHITE.jpg");

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="true" class="row">
+  <div v-if="true" class="">
     <center><h1>Esemény szerkesztő</h1></center>
 
     <main id="sample">

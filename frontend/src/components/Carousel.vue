@@ -10,6 +10,22 @@
       <div class="carousel-item">
         <img src="https://picsum.photos/id/239/1400/300" class="d-block w-100" alt="..." />
       </div>
+      <div class="carousel-item">
+        <img src="../../public/CarouselImage/HistoryPhoto1.jpg" class="d-block w-100 my-carouselimage" alt="..." />
+      </div>
+      <div class="carousel-item">
+        <img src="../../public/CarouselImage/HistoryPhoto2.jpg" class="d-block w-100 my-carouselimage" alt="..." />
+      </div>
+      <div class="carousel-item">
+        <img src="../../public/CarouselImage/HistoryPhoto3.jpg" class="d-block w-100 my-carouselimage" alt="..." />
+      </div>
+      <div class="carousel-item">
+        <img src="../../public/CarouselImage/HistoryPhoto4.jpg" class="d-block w-100 my-carouselimage" alt="..." />
+      </div>
+      <div class="carousel-item">
+        <img src="../../public/CarouselImage/HistoryPhoto5.jpg" class="d-block w-100 my-carouselimage" alt="..." />
+      </div>
+
     </div>
     <button
       class="carousel-control-prev"
@@ -52,8 +68,9 @@ export default {};
 }
 
 .my-carouselimage{
-  background-image: 50px;
-  height: 257px;
+  display: block;
+  width: 1400px;
+  height: 260px;
 }
 
 </style>

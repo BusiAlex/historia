@@ -299,12 +299,23 @@ export default {
   left: 30px;
   width: 30px;
   border-radius: 100%;
-  padding: 1px;
+  padding: 1px;           
   margin-left: 73%;
   height: 30px;
   bottom: 43%;
   /*
-  position: relative;
+  position: relative; A nevem Alex 
+
+
+
+ benceiuiuuigiigiugugiughhh
+
+
+   A nevem Alex A nevem Alex Nevem Alex 
+
+
+
+        Amúgy nem. Neked úgyis minden mindegy már
   */
 }
 

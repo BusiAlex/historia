@@ -51,7 +51,7 @@ export default {
   methods: {
     loginErrorMessageShow(message) {
       this.loginErrorMessage = message;
-      setTimeout(() => {
+      setTimeout(() => { 
         this.loginErrorMessage = null;
       }, 3000);
     },
@@ -106,7 +106,7 @@ export default {
 <style>
 
 .my-width-login {
-  max-width: 500px;
+width: 500px;
   margin-top: 10%;
   margin-left: 25%;
   margin-right: 25%;

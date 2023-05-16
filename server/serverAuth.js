@@ -73,7 +73,7 @@ app.post("/login", (req, res) => {
       console.log("refreshTokens /login:", refreshTokens);
       return;
     } else {
-      sendingInfo(res, 1, "Invalid username or password", {
+      sendingInfo(res, 0, "Invalid username or password", {
         accessToken: "",
         refreshToken: "",
         userId: 0,

@@ -71,6 +71,7 @@ export default {};
   display: block;
   width: 1400px;
   height: 260px;
+  image-resolution: 300px 1400px;
 }
 
 </style>

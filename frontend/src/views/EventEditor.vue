@@ -35,4 +35,15 @@ export default {
 </script>
 
 <style>
+
+ .tox-tinymce{
+  position: absolute;
+  transform: translate(13%, 8%);
+  height: 900px !important;
+  width: 950px;
+  
+  
+}
+
+
 </style>

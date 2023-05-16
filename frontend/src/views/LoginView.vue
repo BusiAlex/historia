@@ -77,6 +77,8 @@ export default {
           return;
         }
         const data = await response.json();
+        console.log("xxx",data);
+
         if (data.success) {
           //sikeres bejelentkezés
           this.storeLogin.loginSuccess = data.success;

@@ -262,7 +262,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #my-image {
   max-height: 120px;
   display: block;
@@ -303,20 +303,6 @@ export default {
   margin-left: 73%;
   height: 30px;
   bottom: 43%;
-  /*
-  position: relative; A nevem Alex 
-
-
-
- benceiuiuuigiigiugugiughhh
-
-
-   A nevem Alex A nevem Alex Nevem Alex 
-
-
-
-        Amúgy nem. Neked úgyis minden mindegy már
-  */
 }
 
 .my-card {

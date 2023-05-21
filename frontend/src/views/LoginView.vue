@@ -1,6 +1,6 @@
 <template>
-  <div class="p-3 my-width-login my-loginview ">
- <div class="mt-5 ms-5 me-5 ">
+  <div class="p-3 my-width-login my-loginview">
+ <div class="mt-5 ms-5 me-5 my-login">
 
    <!-- user name -->
    <div class="mb-3">
@@ -107,11 +107,8 @@ export default {
 
 <style>
 
-.my-width-login {
-width: 500px;
-  margin-top: 10%;
-  margin-left: 25%;
-  margin-right: 25%;
- margin-bottom: 10%;
+.my-login{
+  position: relative;
+  left: 100px;
 }
 </style>

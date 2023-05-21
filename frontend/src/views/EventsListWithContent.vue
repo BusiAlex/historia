@@ -2,8 +2,8 @@
   <div class="row">
     <!-- Esemény lista -->
     <div class="col-md-20">
-      <h1>{{ country.name }} történelme</h1>
-      <table class="table table-secondary table-hover w-auto">
+      <h1 class="centered">{{ country.name }} történelme</h1>
+      <table class="table table-secondary table-hover w-auto my-table">
         <thead>
           <tr>
             <th scope="col">Évszám</th>
@@ -501,6 +501,13 @@ export default {
 </script>
 
 <style>
+
+.my-table{
+  position: relative;
+  left: 22%;
+  top: 70px;
+}
+
 .my-button {
   margin-left: 121px;
 }

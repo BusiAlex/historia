@@ -93,6 +93,9 @@ delete from countries
   select * from events
     where countryId = 1;
 
+
+  select * from events;
+
 #DELETE events
   delete from events
     where id = 1;

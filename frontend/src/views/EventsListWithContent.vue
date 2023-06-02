@@ -209,6 +209,7 @@
               <div class="mb-3 col-md-8">
                 <label for="eventName" class="form-label">Esemény neve</label>
                 <input
+                  v-model="event.eventName"
                   type="text"
                   class="form-control"
                   id="eventName"
@@ -218,6 +219,7 @@
               <div class="mb-3 col-md-2">
                 <label for="dateFrom" class="form-label">évszámtól</label>
                 <input
+                  v-model="event.dateFrom"
                   type="number"
                   class="form-control"
                   id="dateFrom"
@@ -226,6 +228,7 @@
               <div class="mb-3 col-md-2">
                 <label for="dateTo" class="form-label">évszámig</label>
                 <input
+                  v-model="event.dateTo"
                   type="number"
                   class="form-control"
                   id="dateTo"
@@ -234,6 +237,7 @@
               <div class="mb-3 col-12">
                 <label for="link" class="form-label">Forrás</label>
                 <input
+                  v-model="event.link"
                   type="text"
                   class="form-control"
                   id="link"
@@ -243,6 +247,7 @@
                 <main id="sample">
                   <div id="editor22">
                     <Editor
+                    v-model="event.description"
                     api-key="2sunwstf5wgpgg17zlpewi8k80e6k3udiopxeqwk6tidxklg"
                     :init="tinymceCoonfig"
                     class="textarea"

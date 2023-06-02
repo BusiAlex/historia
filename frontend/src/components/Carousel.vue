@@ -2,13 +2,10 @@
   <div id="carouselExample" class="carousel slide position-relative" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="https://picsum.photos/id/237/1400/300" class="d-block w-100" alt="..." />
+        <img src="../../public/CarouselImage/HistoryPhoto5.jpg" class="d-block w-100 my-carouselimage" alt="..." />
       </div>
       <div class="carousel-item">
         <img src="https://picsum.photos/id/238/1400/300" class="d-block w-100" alt="..." />
-      </div>
-      <div class="carousel-item">
-        <img src="https://picsum.photos/id/239/1400/300" class="d-block w-100" alt="..." />
       </div>
       <div class="carousel-item">
         <img src="../../public/CarouselImage/HistoryPhoto1.jpg" class="d-block w-100 my-carouselimage" alt="..." />
@@ -21,9 +18,6 @@
       </div>
       <div class="carousel-item">
         <img src="../../public/CarouselImage/HistoryPhoto4.jpg" class="d-block w-100 my-carouselimage" alt="..." />
-      </div>
-      <div class="carousel-item">
-        <img src="../../public/CarouselImage/HistoryPhoto5.jpg" class="d-block w-100 my-carouselimage" alt="..." />
       </div>
 
     </div>

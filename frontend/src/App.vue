@@ -1,6 +1,5 @@
 <template>
   <div>
-
       <img src="../public/KeretKisebb.jpg" alt="keret" class="my-backgroundimage">
       <img src="../public/KeretKisebb.jpg" alt="keret" class="my-backgroundimageRight">
       

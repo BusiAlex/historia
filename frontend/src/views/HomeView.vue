@@ -275,7 +275,7 @@ export default {
 }
 
 .my-border {
-  border: 2px solid black;
+  border: 4px solid black;
 }
 
 .my-countryname{

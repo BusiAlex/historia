@@ -2,8 +2,8 @@
   <div v-if="true" class="">
     <h1 class="centered">Esemény szerkesztő</h1>
 
-    <div class="editor-wrapper">
-      <Editor v-model="text" :init="tinymceConfig" class="textarea" />
+    <div id="editor11" class="editor11">
+      <Editor v-model="text" :init="tinymceConfig" id="editor1" class="editor1" />
       </div>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
     return {
       text: null,
       tinymceConfig: {
-        selector: 'textarea.textarea',
+        selector: "#editor1",
         plugins: 'lists link image editimage table code help wordcount',
         skin: "HISTORIASKIN",
         skin_url: '/node_modules/tinymce/skins/ui/historyskin/',
@@ -41,17 +41,17 @@ export default {
   text-align: center;
 }
 
-.editor-wrapper {
+#editor11{
   position: relative;
-  width: 100%;
-  height: 400px;
+  transform: translate(13%, 8%);
+  width: 950px;
+
 }
 
+
 .tox-tinymce{
-  position: absolute;
-  transform: translate(13%, 8%);
   height: 900px !important;
-  width: 950px;
 }
+
 
 </style>

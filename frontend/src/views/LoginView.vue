@@ -1,23 +1,23 @@
 <template>
-  <div class="p-3 my-width-login my-loginview">
- <div class="mt-5 ms-5 me-5 my-login">
+  <div class="p-5 my-width-login my-loginview">
+ <div class="mt-5 ms-4 me-3 my-login">
 
    <!-- user name -->
    <div class="mb-3">
-     <label for="userName" class="form-label">Felhasználónév:</label>
+     <label for="userName" class="form-label">Felhasználónév</label>
       <input
         type="text"
-        class="form-control "
+        class="form-control custom-input"
         id="userName"
         v-model="storeLogin.userName"
       />
     </div>
     <!-- password -->
     <div class="mb-3 ">
-      <label for="password" class="form-label">Jelszó:</label>
+      <label for="password" class="form-label">Jelszó</label>
       <input
         type="password"
-        class="form-control"
+        class="form-control custom-input"
         id="password"
         v-model="storeLogin.password"
       /> 
@@ -107,8 +107,16 @@ export default {
 
 <style>
 
+.custom-input{
+  width: 200px;
+  position: relative;
+  left: 40%;
+}
+
 .my-login{
   position: relative;
-  left: 100px;
+  text-align: center;
+  font-weight: bolder;
+  font-size: 35px;
 }
 </style>

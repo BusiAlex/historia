@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="my-container">
     <!-- Esemény lista -->
     <div class="col-md-20">
       <h1 class="centered">{{ country.name }} történelme</h1>
@@ -132,20 +132,22 @@
               </div>
               <div>
                 <main id="sample">
-                  <Editor
+                  <div id="editor22">
+                    <Editor
                     v-model="event.description"
                     api-key="2sunwstf5wgpgg17zlpewi8k80e6k3udiopxeqwk6tidxklg"
                     :init="{
                       plugins: 'lists link image table code help wordcount',
                     }"
                   />
+                </div>
                 </main>
               </div>
             </div>
             <!-- Részletek megmutatása -->
             <div v-if="!storeLogin.loginSuccess">
               <h2>{{ event.eventName }}</h2>
-              <p>"{{ event.dateFrom }} - {{ event.dateTo }}</p>
+              <p>{{ event.dateFrom }} - {{ event.dateTo }}</p>
               <p><a :href="event.link">Forrás</a></p>
               <div v-html="event.description"></div>
             </div>
@@ -210,7 +212,6 @@
                   type="text"
                   class="form-control"
                   id="eventName"
-                  v-model="event.eventName"
                 />
               </div>
 
@@ -220,7 +221,6 @@
                   type="number"
                   class="form-control"
                   id="dateFrom"
-                  v-model="event.dateFrom"
                 />
               </div>
               <div class="mb-3 col-md-2">
@@ -229,7 +229,6 @@
                   type="number"
                   class="form-control"
                   id="dateTo"
-                  v-model="event.dateTo"
                 />
               </div>
               <div class="mb-3 col-12">
@@ -238,18 +237,17 @@
                   type="text"
                   class="form-control"
                   id="link"
-                  v-model="event.link"
                 />
               </div>
               <div>
                 <main id="sample">
-                  <Editor
-                    v-model="event.description"
+                  <div id="editor22">
+                    <Editor
                     api-key="2sunwstf5wgpgg17zlpewi8k80e6k3udiopxeqwk6tidxklg"
-                    :init="{
-                      plugins: 'lists link image table code help wordcount',
-                    }"
-                  />
+                    :init="tinymceCoonfig"
+                    class="textarea"
+                    />
+                  </div>
                 </main>
               </div>
             </div>
@@ -304,6 +302,8 @@
 <script>
 import * as bootstrap from "bootstrap";
 import Editor from "@tinymce/tinymce-vue";
+import tinymce from "tinymce";
+import 'tinymce/themes/silver';
 import YesNo from "../components/YesNo.vue";
 
 class Country {
@@ -352,6 +352,13 @@ export default {
       state: "view",
       currentId: null,
       yesNoShow: false,
+      tinymceCoonfig:{
+        selector: 'textarea.textarea',
+        plugins: 'lists link image editimage table code help wordcount',
+        skin: "oxide-dark",
+        skin_url: '/node_modules/tinymce/skins/ui/oxide-dark/',
+        promotion: false,
+      },
     };
   },
   mounted() {
@@ -501,6 +508,19 @@ export default {
 </script>
 
 <style>
+
+#editor22{
+  position: relative;
+  height: 900px;
+}
+
+.tox-tinymce{
+  height: 900px !important;
+}
+
+.centered{
+  text-align: center;
+}
 
 .my-table{
   position: relative;

@@ -81,13 +81,18 @@ function onClickMenu(number){
 
 .my-text0{
   font-family: cursive;
+  font-weight: bolder;
 }
 
 .my-text1{
   font-family: cursive;
+  font-weight: bolder;
+
 }
 
 .my-text2{
+  font-weight: bolder;
+
   font-family: cursive;
 }
 
